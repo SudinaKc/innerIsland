@@ -1,13 +1,12 @@
-import "./Hero.css";
 import { Link } from "react-router-dom";
 const Hero = () => {
   return (
-    <div className="hero">
-      <div className="custom_container hero_container ">
+    <div className="color1">
+      <div className="custom_container pt-6rem pb-4rem ">
         <div className=" d-flex row align-items-center gx-5">
           <div className="col-lg-7">
-            <h1 className="display-2">Discover Your Inner Island of Support</h1>
-            <p className="lead py-3">
+            <h1 className="display-2 heading1">Discover Your Inner Island of Support</h1>
+            <p className="lead py-3 para1">
               Welcome to InnerIsland, your oasis of empathy and
               <br />
               support on your transformative journey towards mental <br />

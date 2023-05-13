@@ -25,21 +25,9 @@ const Header = () => {
             <Nav.Link as={Link} to="/about" style={{ marginRight: "30px" }}>
               About
             </Nav.Link>
-            <Nav.Link as={Link} to="/login">
-              <Link>
-                <button
-                  type="button"
-                  className="btn btn-success btn-rounded  "
-                  style={{
-                    padding: "10px 25px",
-                    backgroundColor: "RGB(20, 152, 92)",
-                  }}
-                >
-                 Login
-                </button>
-              </Link>
+            <Nav.Link to="/login">
+              <Link to={"/service"} className="btn btn-success btn-rounded button">Login</Link>
             </Nav.Link>
-           
           </Nav>
         </Navbar.Collapse>
       </Container>
