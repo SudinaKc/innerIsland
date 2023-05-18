@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 const Header = () => {
   return (
     <Navbar expand="lg" className="lh-lg">
-      <Container className="custom_container">
+      <Container>
         <Navbar.Brand as={Link} to="/" style={{ color: "#3F464C" }}>
           <strong>innerIsland</strong>
         </Navbar.Brand>
@@ -25,8 +25,22 @@ const Header = () => {
             <Nav.Link as={Link} to="/about" style={{ marginRight: "30px" }}>
               About
             </Nav.Link>
-            <Nav.Link to="/login">
-              <Link to={"/service"} className="btn btn-success btn-rounded button">Login</Link>
+            <Nav.Link>
+              <Link
+                to={"/login"}
+                className="btn btn-success btn-rounded button"
+              >
+                Login
+              </Link>
+            </Nav.Link>
+            <Nav.Link >
+              <Link
+                to={"/chat"}
+                className="btn btn-success btn-rounded button"
+              >
+                Chat
+             
+              </Link>
             </Nav.Link>
           </Nav>
         </Navbar.Collapse>

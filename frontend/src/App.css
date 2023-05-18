@@ -36,7 +36,8 @@
   font-family: "Montserrat", sans-serif;
 }
 .img {
-  width: 321.5px;
+  /* width: 321.5px; */
+  width: 80%;
 }
 
 .para1 {

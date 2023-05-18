@@ -1,16 +1,16 @@
 import { BrowserRouter,Routes,Route } from "react-router-dom"
-// import Meditation from './screens/Meditation';
 import "./App.css"
-import HomeScreen from './screens/HomeScreen';
+import Home from './Pages/Home';
 import Header from "./components/Header";
 import Footer from "./components/Footer";
+import MessageForm from './components/MessageForm';
 const App = () => {
   return (
     <BrowserRouter>
     <Header/>
       <Routes>
-      <Route path="/" Component={HomeScreen}/>
-        {/* <Route path="/meditation" Component={Meditation}/> */}
+      <Route path="/" Component={Home}/>
+      <Route path="/message" Component={MessageForm}/>
       </Routes>
       <Footer/>
     </BrowserRouter>
