@@ -3,15 +3,27 @@ import User from "../model/UserModel.js";
 const router = express.Router();
 
 // Creating user
-router.post("/", async (req, res) => {
+router.post("/register", async (req, res) => {
   try {
-    const { name, email, password, picture } = req.body;
-    const user = await User.create({ name, email, password, picture });
+    const { firstName, lastName, email, password, picture } = req.body;
+
+    if (!firstName || !lastName || !email || !password) {
+      res.status(400).json("please,fill the empty field");
+    }
+    const user = await User.create({
+      firstName,
+      lastName,
+      email,
+      password,
+      picture,
+    });
     res.status(200).json({ user });
   } catch (e) {
-    let msg;
-    e.code === 11000 ? (msg = "user already exist") : (msg = e.message);
-    res.status(400).json(msg);
+    if (e.code === 11000) {
+      res.status(409).json("user already exist");
+    } else {
+      res.status(400).json(e.message);
+    }
   }
 });
 
@@ -27,13 +39,13 @@ router.post("/login", async (req, res) => {
     // cookie
     const options = {
       expires: new Date(new Date() + 3 * 60 * 1000),
-      httpOnly: false
+      httpOnly: true,
     };
     res.cookie("jwttoken", token, options);
     res.status(200).json({
       message: "login success",
       user,
-    }); 
+    });
   } catch (error) {
     res.status(400).json(error.message);
   }

@@ -1,62 +1,10 @@
-import { useState } from "react";
-import axios from "axios";
-import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useNavigate } from "react-router-dom";
-import "./login.css"
-const Login = () => {
-  const navigate = useNavigate();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const loginData = {
-    email,
-    password,
-  };
-  const loginUser = async (e) => {
-    e.preventDefault();
-    try {
-      const response = await axios.post(
-        "http://localhost:3000/users/login",
-        loginData,
-        {
-          withCredentials: true,
-        }
-      );
-
-      // Handle the response from the backend
-      if (response.status === 200) {
-        // const responseData = response.data;
-        console.log("login successful");
-        toast.success("login success !", {
-          position: toast.POSITION.TOP_CENTER,
-          autoClose: 500,
-        });
-        // history.push("/");
-        navigate("/");
-        // Perform any necessary actions, such as setting tokens or redirecting to a new page
-      } else {
-        // Login failed, handle the error response from the backend
-        const errorData = response.data;
-        console.log("Login failed:", errorData.message);
-        // Handle the error, such as displaying an error message to the user
-      }
-    } catch (error) {
-      if (error.response && error.response.status === 400) {
-        toast.error("Invalid login credentials. Please try again.", {
-          position: toast.POSITION.TOP_CENTER,
-          autoClose: 1000, // Adjust the duration as needed
-        });
-      } else {
-        toast.error("Error occurred during login: " + error.message, {
-          position: toast.POSITION.TOP_CENTER,
-          autoClose: 1000, // Adjust the duration as needed
-        });
-      }
-    }
-  };
-
+import PropTypes from "prop-types";
+import "./login.css";
+import { Link } from "react-router-dom";
+const Login = ({ loginUser, email, setEmail, password, setPassword }) => {
+  
   return (
-    
     <section className="h-100 gradient-form ">
       <div className="container py-5 h-100  ">
         <div className="row d-flex justify-content-center align-items-center h-100 ">
@@ -85,7 +33,6 @@ const Login = () => {
                           value={email}
                           onChange={(e) => setEmail(e.target.value)}
                         />
-                       
                       </div>
 
                       <div className="form-outline mb-4">
@@ -96,11 +43,13 @@ const Login = () => {
                           placeholder="password"
                           onChange={(e) => setPassword(e.target.value)}
                         />
-                        
                       </div>
 
                       <div className="text-center pt-1 mb-5 pb-1">
-                        <button className="btn btn-success btn-rounded button w-100 mb-4  " type="submit">
+                        <button
+                          className="btn btn-success btn-rounded button w-100 mb-4  "
+                          type="submit"
+                        >
                           Log in
                         </button>
                         <a className="text-muted" href="#!">
@@ -110,9 +59,14 @@ const Login = () => {
 
                       <div className="d-flex align-items-center justify-content-center pb-4">
                         <p className="mb-0 me-2">Don&apos;t have an account?</p>
-                        <button type="button" className="btn btn-outline-danger">
-                          Create new
-                        </button>
+                        <Link to={"/register"}>
+                          <button
+                            type="button"
+                            className="btn btn-outline-danger"
+                          >
+                            Create new
+                          </button>
+                        </Link>
                       </div>
                     </form>
                   </div>
@@ -121,9 +75,10 @@ const Login = () => {
                   <div className="text-white px-3 py-4 p-md-5 mx-md-4">
                     <h4 className="mb-4">We are more than just a company</h4>
                     <p className="small mb-0">
-                      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore
-                      magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-                      consequat.
+                      Lorem ipsum dolor sit amet, consectetur adipisicing elit,
+                      sed do eiusmod tempor incididunt ut labore et dolore magna
+                      aliqua. Ut enim ad minim veniam, quis nostrud exercitation
+                      ullamco laboris nisi ut aliquip ex ea commodo consequat.
                     </p>
                   </div>
                 </div>
@@ -135,5 +90,11 @@ const Login = () => {
     </section>
   );
 };
-
+Login.propTypes = {
+  email: PropTypes.string.isRequired,
+  password: PropTypes.string.isRequired,
+  setEmail: PropTypes.func.isRequired,
+  setPassword: PropTypes.func.isRequired,
+  loginUser: PropTypes.func.isRequired,
+};
 export default Login;
