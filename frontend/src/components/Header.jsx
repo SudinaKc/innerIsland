@@ -4,7 +4,7 @@ import Navbar from "react-bootstrap/Navbar";
 import { Link } from "react-router-dom";
 const Header = () => {
   return (
-    <Navbar expand="lg" className="lh-lg">
+    <Navbar expand="lg" className="lh-lg position-sticky top-0 bg-light  " style={{zIndex:500}}>
       <Container>
         <Navbar.Brand as={Link} to="/" style={{ color: "#3F464C" }}>
           <strong>innerIsland</strong>

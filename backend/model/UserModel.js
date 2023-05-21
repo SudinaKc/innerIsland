@@ -1,6 +1,8 @@
 import mongoose from "mongoose";
 import isEmail from "validator/lib/isEmail.js";
-import bcrypt from "bcryptjs";
+import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
+
 const UserSchema = new mongoose.Schema(
   {
     name: {
@@ -34,6 +36,14 @@ const UserSchema = new mongoose.Schema(
       type: String,
       default: "online",
     },
+    tokens: [
+      {
+        token: {
+          type: String,
+          required: true,
+        },
+      },
+    ],
   },
   { minimize: false }
 );
@@ -49,15 +59,27 @@ UserSchema.pre("save", async function (next) {
     return next();
   }
   try {
-    const salt = await bcrypt.genSalt(10);
-    this.password = await bcrypt.hash(this.password, salt);
+    this.password = await bcrypt.hash(this.password, 10);
     next();
   } catch (error) {
     return next(error);
-  }   
+  }
 });
+// generate jwt token
+UserSchema.methods.generateToken = async function () {
+  try {
+    const token = jwt.sign({ userId: this._id }, "innerIsland");
+    this.tokens.push({ token });
+    await this.save();
+    return token;
+  } catch (error) {
+    console.log(error);
+    throw new Error("Unable to generate token");
+  }
+};
 
-UserSchema.statics.findByCredentials =async function(email, password)  {
+// login logic
+UserSchema.statics.findByCredentials = async function (email, password) {
   const user = await User.findOne({ email });
   if (!user) {
     throw new Error("unable to login");
