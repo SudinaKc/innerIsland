@@ -1,6 +1,6 @@
 import { BsSend } from "react-icons/bs";
-import "./MessageForm.css";
-const MessageForm = () => {
+import "./Chat.css";
+const Chat = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log(e);
@@ -32,4 +32,4 @@ const MessageForm = () => {
   );
 };
 
-export default MessageForm;
+export default Chat;

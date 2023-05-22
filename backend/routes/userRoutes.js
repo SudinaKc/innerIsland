@@ -1,7 +1,7 @@
 import express from "express";
 import User from "../model/UserModel.js";
 const router = express.Router();
-
+import authentication from "../middleware/authentication.js";
 // Creating user
 router.post("/register", async (req, res) => {
   try {
@@ -35,13 +35,14 @@ router.post("/login", async (req, res) => {
     const user = await User.findByCredentials(email, password); // findByCredential is defined in model
     user.status = "online";
     // generate jwt token
-    const token = await user.generateToken();
+    const token = await user.generateToken();      
     // cookie
     const options = {
-      expires: new Date(new Date() + 3 * 60 * 1000),
+      // new Date(new Date() + 24 * 60 * 1000)  //incorrect
+      expires: new Date(Date.now() + 5*60* 1000),
       httpOnly: true,
     };
-    res.cookie("jwttoken", token, options);
+    res.cookie("token", token, options);
     res.status(200).json({
       message: "login success",
       user,
@@ -49,6 +50,12 @@ router.post("/login", async (req, res) => {
   } catch (error) {
     res.status(400).json(error.message);
   }
+});
+
+// chat get request
+router.get("/chat", authentication, (req, res) => {
+  res.json("hello from chat section");
+  console.log("hello from chat section");
 });
 
 export default router;

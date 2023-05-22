@@ -36,17 +36,6 @@ io.on("connection", (socket) => {
 });
 
 // Express routes
-// app.get("/", (req, res) => {
-  
-//   const options = {
-//     expires: new Date(new Date() + 3 * 60 * 1000),
-//     httpOnly: false
-//   };
-//   res.cookie("jwttoken", "bhrdgbrfgrfgr", options);
-//   res.json({
-//     name: "anand",
-//   });
-// });
 
 const port = process.env.PORT || 3000;
 
