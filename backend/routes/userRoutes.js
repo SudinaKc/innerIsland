@@ -8,22 +8,25 @@ router.post("/register", async (req, res) => {
     const { firstName, lastName, email, password, picture } = req.body;
 
     if (!firstName || !lastName || !email || !password) {
-      res.status(400).json("please,fill the empty field");
+      return res.status(400).json("please,fill the empty field");
     }
-    const user = await User.create({
-      firstName,
-      lastName,
-      email,
-      password,
-      picture,
-    });
+
+    const userExists = await User.findOne({ email });
+    if (userExists) {
+      return res.status(409).json("user already exists");
+    }
+    const user = await User.create({ firstName, lastName, email, password, picture, });
+    user.status = "online";
+    const token = await user.generateToken();// there is user.save() in this function
+    const options = {
+      // new Date(new Date() + 24 * 60 * 1000)  //incorrect
+      expires: new Date(Date.now() + 5 * 60 * 1000),
+      httpOnly: true,
+    };
+    res.cookie("token", token, options);
     res.status(200).json({ user });
   } catch (e) {
-    if (e.code === 11000) {
-      res.status(409).json("user already exist");
-    } else {
-      res.status(400).json(e.message);
-    }
+    return res.status(400).json(e.message);
   }
 });
 
@@ -32,14 +35,12 @@ router.post("/register", async (req, res) => {
 router.post("/login", async (req, res) => {
   try {
     const { email, password } = req.body;
-    const user = await User.findByCredentials(email, password); // findByCredential is defined in model
+    const user = await User.findByCredentials(email, password);
     user.status = "online";
-    // generate jwt token
-    const token = await user.generateToken();      
-    // cookie
+    const token = await user.generateToken();// there is user.save() in this function
     const options = {
       // new Date(new Date() + 24 * 60 * 1000)  //incorrect
-      expires: new Date(Date.now() + 5*60* 1000),
+      expires: new Date(Date.now() + 5 * 60 * 1000),
       httpOnly: true,
     };
     res.cookie("token", token, options);
@@ -48,7 +49,7 @@ router.post("/login", async (req, res) => {
       user,
     });
   } catch (error) {
-    res.status(400).json(error.message);
+    return res.status(400).json(error.message);
   }
 });
 

@@ -1,11 +1,32 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Register from "../components/Register";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
+
+import { registerUserAsync, reset } from "../redux/slice/userSlice";
 
 const RegisterPage = () => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { isLoading, isSuccess, isError, message } = useSelector(
+    (state) => state.user
+  );
+
+  useEffect(() => {
+    if (isError) {
+      console.log(message);
+      toast.error(message);
+    }
+    if (isSuccess) {
+      navigate("/");
+      toast.success("register success");
+    }
+    dispatch(reset());
+  }, [isError, isSuccess, message, dispatch, navigate]);
+
   const [registerData, setRegisterData] = useState({
     firstName: "",
     lastName: "",
@@ -24,41 +45,23 @@ const RegisterPage = () => {
   };
 
   const registerUser = async (e) => {
+    // prevent default
     e.preventDefault();
-    // Logic for registering user
-    try {
-      if (!firstName || !lastName || !email || !password) {
-        // throw new Error("Please fill in all the fields");
-        throw new Error(
-          toast.error(
-            "please fill in all the field",
+    // check field validation
+    if (!firstName || !lastName || !email || !password) {
+      throw new Error(
+        toast.error(
+          "please fill in all the field",
 
-            {
-              position: toast.POSITION.TOP_CENTER,
-              autoClose: 500,
-            }
-          )
-        );
-      }
-      const response = await axios.post(
-        "http://localhost:3000/users/register",
-        {
-          firstName,
-          lastName,
-          email,
-          password,
-        }
+          {
+            position: toast.POSITION.TOP_CENTER,
+            autoClose: 500,
+          }
+        )
       );
-
-      if (response.status === 200) {
-        console.log("register success");
-        // Perform any additional actions after successful registration
-        navigate("/")
-      }
-    } catch (error) {
-      console.log(error.message);
-      // Handle error case, e.g., display error message to the user
     }
+    // dispathc
+    dispatch(registerUserAsync({ firstName, lastName, email, password }));
   };
 
   return (
