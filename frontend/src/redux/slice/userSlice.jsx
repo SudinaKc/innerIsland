@@ -25,7 +25,7 @@ export const registerUserAsync = createAsyncThunk(
           password,
         }
       );
-
+console.log(response.data);
       return response.data;
     } catch (error) {
       const message = error.response.data;

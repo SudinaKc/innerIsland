@@ -15,9 +15,15 @@ router.post("/register", async (req, res) => {
     if (userExists) {
       return res.status(409).json("user already exists");
     }
-    const user = await User.create({ firstName, lastName, email, password, picture, });
+    const user = await User.create({
+      firstName,
+      lastName,
+      email,
+      password,
+      picture,
+    });
     user.status = "online";
-    const token = await user.generateToken();// there is user.save() in this function
+    const token = await user.generateToken(); // there is user.save() in this function
     const options = {
       // new Date(new Date() + 24 * 60 * 1000)  //incorrect
       expires: new Date(Date.now() + 5 * 60 * 1000),
@@ -37,7 +43,7 @@ router.post("/login", async (req, res) => {
     const { email, password } = req.body;
     const user = await User.findByCredentials(email, password);
     user.status = "online";
-    const token = await user.generateToken();// there is user.save() in this function
+    const token = await user.generateToken(); // there is user.save() in this function
     const options = {
       // new Date(new Date() + 24 * 60 * 1000)  //incorrect
       expires: new Date(Date.now() + 5 * 60 * 1000),
@@ -57,6 +63,27 @@ router.post("/login", async (req, res) => {
 router.get("/chat", authentication, (req, res) => {
   res.json("hello from chat section");
   console.log("hello from chat section");
+});
+
+//@description     Get or Search all users
+//@route           GET /api/user?search=
+//@access          Public
+router.get("/", authentication, async (req, res) => {
+  const keyword = req.query.search
+    ? {
+        $or: [
+          { firstName: { $regex: req.query.search, $options: "i" } },
+          { email: { $regex: req.query.search, $options: "i" } },
+        ],
+      }
+    : {};
+
+  try {
+    const users = await User.find(keyword).find({ _id: { $ne: req.user._id } });
+    res.send(users);
+  } catch (error) {
+    return res.status(400).json(error);
+  }
 });
 
 export default router;
