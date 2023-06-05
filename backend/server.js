@@ -15,7 +15,7 @@ const rooms = ["general", "tech", "finance", "crypto"];
 // Middleware
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-// app.use(cors());    
+app.use(cors());    
 app.use(cors({ origin: 'http://localhost:5173', credentials: true }));
 app.use(cookieParser())              
 app.use("/users", userRoutes); // Mount the userRouter at the root path ("/")
@@ -26,7 +26,7 @@ const httpServer = createServer(app);
 // Create socket.io server   
 const io = new Server(httpServer, {
   cors: {
-    origin: "http://localhost:5173", // frontend link
+    origin: "http://127.0.0.1:5173", // frontend link
     methods: ["GET", "POST"],
   },
 });
@@ -37,7 +37,7 @@ async function getLastMessageFromRoom(room){
   ])
   return roomMessages
 }
-function sortRoomMessagesByDate
+// function sortRoomMessagesByDate
 
 // Socket.io event handling
 io.on("connection", (socket) => {

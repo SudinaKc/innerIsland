@@ -1,6 +1,6 @@
 .gradient-custom-2 {
 
-    background: linear-gradient(to right, #ee7724, #d8363a, #dd3675, #b44593);
+    background: linear-gradient(to right, rgb(20, 152, 92), rgb(20, 152, 92), rgb(20, 152, 92), rgb(20, 152, 92));
     }
     
     @media (min-width: 768px) {
