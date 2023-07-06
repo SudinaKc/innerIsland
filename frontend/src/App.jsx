@@ -10,6 +10,10 @@ import PsychologistPage from "./Pages/PsychologistPage";
 import RegisterPage from "./Pages/RegisterPage";
 import Footer from "./components/Footer";
 import Header from "./components/Header";
+import Profile from "./Pages/userprofile";
+
+
+
 const App = () => {
   return (
       <BrowserRouter>
@@ -21,6 +25,7 @@ const App = () => {
           <Route path="/dashboard" Component={Dashboard} />
           <Route path="/support" Component={NewsFeedPage} />
           <Route path="/psycho" Component={PsychologistPage} />
+          <Route path="/me" Component={Profile}exact/>
 
         </Routes>
         <Footer />
