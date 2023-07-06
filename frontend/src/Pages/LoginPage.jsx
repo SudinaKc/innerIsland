@@ -1,15 +1,15 @@
-import { useState,useEffect } from "react";
+/* eslint-disable react-hooks/exhaustive-deps */
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useNavigate } from "react-router-dom";
 import Login from "../components/Login";
-import { useSelector } from "react-redux";
-import { useDispatch } from "react-redux";
 import { loginUserAsync, reset } from "../redux/slice/userSlice";
 
 const LoginPage = () => {
   const dispatch = useDispatch();
-  const { isLoading, isSuccess, isError, message } = useSelector(
+  const {  isSuccess, isError, message,user } = useSelector(
     (state) => state.user
   );
   const navigate = useNavigate();
@@ -22,11 +22,14 @@ const LoginPage = () => {
       toast.error(message);
     }
     if (isSuccess) {
-      navigate("/");
-      toast.success("login success");
+      // console.log(user.user._id)
+      navigate(`/support/${user.user._id}`);
+      // console.log(user)
+      toast.success("login success");  
+      navigate("/support")
     }
     dispatch(reset());
-  }, [isError, isSuccess, message, dispatch, navigate]);
+  }, [isError, isSuccess, message, dispatch, navigate,user]);
 
   const loginUser = async (e) => {
     e.preventDefault();

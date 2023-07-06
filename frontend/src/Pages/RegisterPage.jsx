@@ -1,17 +1,14 @@
 import { useEffect, useState } from "react";
 import Register from "../components/Register";
-import axios from "axios";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
-
 import { registerUserAsync, reset } from "../redux/slice/userSlice";
-
 const RegisterPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { isLoading, isSuccess, isError, message } = useSelector(
+  const { isSuccess, isError, message } = useSelector(
     (state) => state.user
   );
 

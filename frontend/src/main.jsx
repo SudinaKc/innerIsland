@@ -1,12 +1,12 @@
-import React from "react";
-import ReactDOM from "react-dom/client";
 import "bootstrap/dist/css/bootstrap.min.css";
-import App from "./App.jsx";
-// import "./bootstrap.min.css";
-import { Provider } from "react-redux";
-import { store } from './store';
-ReactDOM.createRoot(document.getElementById("root")).render(
+import ReactDOM from 'react-dom/client';
+import { Provider } from 'react-redux';
+import App from './App.jsx';
+import { store } from './store.jsx';
+ReactDOM.createRoot(document.getElementById('root')).render(
   <Provider store={store}>
+
     <App />
-  </Provider>
-);
+
+  </Provider>,
+)

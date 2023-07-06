@@ -6,6 +6,12 @@ const authentication = (req, res, next) => {
   try {
     const decoded = jwt.verify(token, "innerIsland");
     req.user = decoded;
+
+    const options = {
+      expires: new Date(Date.now() + 5 * 60 * 1000),
+     httpOnly: true,
+    };
+    res.cookie("token", token, options);
     console.log(decoded);
     next();
   } catch (er) {

@@ -29,15 +29,6 @@ const UserSchema = new mongoose.Schema(
       required: [true, "Password can't be blank"],
       trim: true,
     },
-    picture: {
-      type: String,
-      default:
-        "https://icon-library.com/images/anonymous-avatar-icon/anonymous-avatar-icon-25.jpg",
-    },
-    status: {
-      type: String,
-      default: "online",
-    },
     isAdmin: {
       type: Boolean,
       required: true,
@@ -52,7 +43,8 @@ const UserSchema = new mongoose.Schema(
       },
     ],
   },
-  { minimize: false }
+  { minimize: false },
+  { timestamps: true }
 );
 // UserSchema.methods.toJSON = function () {
 //   const user = this.toObject();

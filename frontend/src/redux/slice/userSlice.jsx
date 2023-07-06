@@ -1,16 +1,16 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-import Cookies from "js-cookie";
 
-// getting user from cookie
-
+// Get user from localStorage
+const user = JSON.parse(localStorage.getItem("user"));
 const initialState = {
-  user: null,
+  user: user ? user : null,
+  isFetching: false,
   isSuccess: false,
   isError: false,
-  isLoading: false,
   message: "",
 };
+
 // register user
 export const registerUserAsync = createAsyncThunk(
   "registerUser",
@@ -25,7 +25,7 @@ export const registerUserAsync = createAsyncThunk(
           password,
         }
       );
-console.log(response.data);
+      console.log(response.data);
       return response.data;
     } catch (error) {
       const message = error.response.data;
@@ -33,6 +33,7 @@ console.log(response.data);
     }
   }
 );
+
 // login user
 export const loginUserAsync = createAsyncThunk(
   "loginUser",
@@ -55,7 +56,22 @@ export const loginUserAsync = createAsyncThunk(
     }
   }
 );
-// CREATING SLICE
+
+// logout user
+export const logoutUserAsync = createAsyncThunk(
+  "logoutUser",
+  async (_, thunkAPI) => {
+    try {
+      localStorage.removeItem("user");
+      return null; // Return a success payload indicating a successful logout
+    } catch (error) {
+      const message = error.response.data;
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
+// Creating Slice
 export const userSlice = createSlice({
   name: "user",
   initialState,
@@ -87,15 +103,30 @@ export const userSlice = createSlice({
       .addCase(loginUserAsync.fulfilled, (state, { payload }) => {
         state.isFetching = false;
         state.isSuccess = true;
+        localStorage.setItem("user", JSON.stringify(payload));
+        state.user = payload; // Set the user state
       })
       .addCase(loginUserAsync.rejected, (state, action) => {
         state.isFetching = false;
         state.isError = true;
         state.message = action.payload;
+      })
+      .addCase(logoutUserAsync.pending, (state) => {
+        state.isFetching = true;
+      })
+      .addCase(logoutUserAsync.fulfilled, (state) => {
+        state.isFetching = false;
+        state.isSuccess = false; // Reset isSuccess to false after logout
+        state.user = null; // Reset the user state to null
+      })
+      .addCase(logoutUserAsync.rejected, (state, action) => {
+        state.isFetching = false;
+        state.isError = true;
+        state.message = action.payload;
       });
   },
-  
-
 });
 
 export const { reset } = userSlice.actions;
+
+export default userSlice.reducer;

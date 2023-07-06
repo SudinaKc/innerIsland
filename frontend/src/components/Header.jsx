@@ -1,10 +1,23 @@
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
-import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from 'react-redux';
+import { Link, useNavigate } from "react-router-dom";
+import { logoutUserAsync, reset } from './../redux/slice/userSlice';
 const Header = () => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { user } = useSelector(
+    (state) => state.user
+  );
+  function onLogout() {
+    dispatch(logoutUserAsync())
+
+    dispatch(reset())
+    navigate("/")
+  }
   return (
-    <Navbar expand="lg" className="lh-lg position-sticky top-0 bg-light  " style={{zIndex:500}}>
+    <Navbar expand="lg" className="lh-lg position-sticky top-0 bg-light  " style={{ zIndex: 500 }}>
       <Container>
         <Navbar.Brand as={Link} to="/" style={{ color: "#3F464C" }}>
           <strong>innerIsland</strong>
@@ -25,23 +38,35 @@ const Header = () => {
             <Nav.Link as={Link} to="/about" style={{ marginRight: "30px" }}>
               About
             </Nav.Link>
-            <Nav.Link>
-              <Link
-                to={"/login"}
-                className="btn btn-success btn-rounded button"
-              >
-                Login
-              </Link>
-            </Nav.Link>
-            <Nav.Link >
-              <Link
-                to={"/chat"}
-                className="btn btn-success btn-rounded button"
-              >
-                Chat
-             
-              </Link>
-            </Nav.Link>
+            {
+              (user) ? (
+
+
+                <Nav.Link>
+                  <Link
+                    to={"/logout"}
+                    className="btn btn-success btn-rounded button"
+                    onClick={onLogout}
+                  >
+                    Logout
+                  </Link>
+
+                </Nav.Link>
+              ) : (
+
+                <Nav.Link >
+                  <Link
+                    to={"/login"}
+                    className="btn btn-success btn-rounded button"
+                  >
+                    login
+
+                  </Link>
+                </Nav.Link>
+              )
+            }
+
+
           </Nav>
         </Navbar.Collapse>
       </Container>

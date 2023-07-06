@@ -1,4 +1,4 @@
-import Feature from "../components/Feature";
+import Feature from "../components/Features";
 import Hero from "../components/Hero";
 
 

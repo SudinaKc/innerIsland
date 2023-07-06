@@ -1,52 +1,36 @@
+import cookieParser from "cookie-parser";
+import cors from "cors";
+import dotenv from "dotenv";
 import express from "express";
 import { createServer } from "http";
 import { Server } from "socket.io";
-import cors from "cors";
-import dotenv from "dotenv";
-import userRoutes from "./routes/userRoutes.js";
-import chatRoute from "./routes/chatRoutes.js";
 import connectDB from "./database/connectDB.js";
-import cookieParser from "cookie-parser";
-import Message from "./model/MessageModel.js";
+import postRoutes from "./routes/postRoutes.js";
+import userRoutes from "./routes/userRoutes.js";
 dotenv.config();
 const app = express();
-const rooms = ["general", "tech", "finance", "crypto"];
 
 // Middleware
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-app.use(cors());    
-app.use(cors({ origin: 'http://localhost:5173', credentials: true }));
-app.use(cookieParser())              
+// app.use(cors());
+app.use(cors({ origin: "http://localhost:5173", credentials: true }));
+app.use(cookieParser());
 app.use("/users", userRoutes); // Mount the userRouter at the root path ("/")
-app.use("/api/chat",chatRoute)
+app.use(postRoutes);    
 // Create HTTP server
 const httpServer = createServer(app);
 
-// Create socket.io server   
+// Create socket.io server
 const io = new Server(httpServer, {
   cors: {
-    origin: "http://127.0.0.1:5173", // frontend link
+    origin: "http://localhost:5173", // frontend link
     methods: ["GET", "POST"],
   },
 });
-async function getLastMessageFromRoom(room){
-  let roomMessages=await Message.aggregate([
-    {$match:{to:room}},
-    {$group:{_id:'$date',MessagesByDate:{$push:'$$ROOT'}}}
-  ])
-  return roomMessages
-}
-// function sortRoomMessagesByDate
 
-// Socket.io event handling
-io.on("connection", (socket) => {
-  // Handle socket.io events
-  console.log("A client has connected.");
-  socket.on("join-room",async(room)=>{
-    socket.join(room);
-    let roomMessages=await getLastMessageFromRoom(room)
-  })
+app.use("/rooms", (req, res) => {
+  res.send(rooms);
 });
 
 // Express routes
@@ -65,4 +49,7 @@ const Connection = async () => {
   }
 };
 
+app.use("/",(req,res)=>{
+    res.send("hello from server");
+})
 Connection();
