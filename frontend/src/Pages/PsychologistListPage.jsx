@@ -1,6 +1,6 @@
-import Psychologist from "../components/Psychologist"
+import PsychologistList from "../components/PsychologistList"
 
-const PsychologistPage = () => {
+const PsychologistListPage = () => {
   return (
     <div>
 
@@ -25,11 +25,18 @@ const PsychologistPage = () => {
       </div>
       <div style={{backgroundColor:"rgb(251,251,253)"}}>
         <h1 className="text-center">Top Psychologist</h1>
-      <Psychologist />
+
+
+        {/* psychologists lists */}
+
+
+
+
+      <PsychologistList />
       </div>
 
     </div>
   )
 }
 
-export default PsychologistPage
+export default PsychologistListPage

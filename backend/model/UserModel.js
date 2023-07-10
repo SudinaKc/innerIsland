@@ -1,7 +1,7 @@
-import mongoose from "mongoose";
-import isEmail from "validator/lib/isEmail.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import mongoose from "mongoose";
+import isEmail from "validator/lib/isEmail.js";
 
 const UserSchema = new mongoose.Schema(
   {
@@ -24,27 +24,36 @@ const UserSchema = new mongoose.Schema(
       index: true,
       validate: [isEmail, "invalid email"],
     },
+    phone: {
+      type: String,
+      trim: true,
+      validate: {
+        validator: function (value) {
+          return /^\d{10}$/.test(value);
+        },
+        message: "Invalid phone number",
+      }},
     password: {
       type: String,
       required: [true, "Password can't be blank"],
       trim: true,
     },
+    userType: {
+      type: String,
+      default: "user",
+    },
+
     isAdmin: {
       type: Boolean,
       required: true,
       default: false,
     },
-    tokens: [
-      {
-        token: {
-          type: String,
-          required: true,
-        },
-      },
-    ],
+    token: {
+      type: String,
+    },
   },
-  { minimize: false },
-  { timestamps: true }
+
+  { minimize: false, timestamps: true }
 );
 // UserSchema.methods.toJSON = function () {
 //   const user = this.toObject();
@@ -68,7 +77,8 @@ UserSchema.pre("save", async function (next) {
 UserSchema.methods.generateToken = async function () {
   try {
     const token = jwt.sign({ userId: this._id }, "innerIsland");
-    this.tokens.push({ token });
+    // this.tokens.push({ token });
+    this.token = token;
     await this.save();
     return token;
   } catch (error) {

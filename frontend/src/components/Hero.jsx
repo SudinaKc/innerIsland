@@ -25,7 +25,7 @@ const Hero = () => {
             <img
               src="https://10web-site.ai/75/wp-content/uploads/sites/87/2023/05/dose-juice-sTPy-oeA3h0-unsplash_Ws5832BD.webp"
               className="img rounded"
-              alt="Hero Image"
+              alt=" Image"
             />
           </div>
         </div>

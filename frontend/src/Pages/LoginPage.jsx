@@ -15,6 +15,7 @@ const LoginPage = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [userType, setUserType] = useState("user");
 
   useEffect(() => {
     if (isError) {
@@ -25,7 +26,9 @@ const LoginPage = () => {
       // console.log(user.user._id)
       navigate(`/support/${user.user._id}`);
       // console.log(user)
-      toast.success("login success");  
+      toast.success("Login success", {
+        autoClose: 500, // Duration in milliseconds (2 seconds)
+      }); 
       navigate("/support")
     }
     dispatch(reset());
@@ -33,7 +36,7 @@ const LoginPage = () => {
 
   const loginUser = async (e) => {
     e.preventDefault();
-    dispatch(loginUserAsync({ email, password }));
+    dispatch(loginUserAsync({ email, password ,userType}));
   };
 
   return (
@@ -44,6 +47,9 @@ const LoginPage = () => {
         password={password}
         setPassword={setPassword}
         loginUser={loginUser}
+        userType={userType}
+        setUserType={setUserType}
+
       />
     </>
   );

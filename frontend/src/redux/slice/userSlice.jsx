@@ -14,7 +14,7 @@ const initialState = {
 // register user
 export const registerUserAsync = createAsyncThunk(
   "registerUser",
-  async ({ firstName, lastName, email, password }, thunkAPI) => {
+  async ({ firstName, lastName, email,phone, password }, thunkAPI) => {
     try {
       const response = await axios.post(
         "http://localhost:3000/users/register",
@@ -22,6 +22,7 @@ export const registerUserAsync = createAsyncThunk(
           firstName,
           lastName,
           email,
+          phone,
           password,
         }
       );
@@ -33,29 +34,101 @@ export const registerUserAsync = createAsyncThunk(
     }
   }
 );
-
+// http://localhost:3000/users/login
 // login user
 export const loginUserAsync = createAsyncThunk(
   "loginUser",
-  async ({ email, password }, thunkAPI) => {
+  async ({ email, password, userType }, thunkAPI) => {
+
+    let response = null;
     try {
-      const response = await axios.post(
-        "http://localhost:3000/users/login",
-        {
-          email,
-          password,
-        },
-        {
-          withCredentials: true,
-        }
-      );
+      if (userType === "expert") {
+        response = await axios.post(
+          "http://localhost:3000/psychologist/login",
+          {
+            email,
+            password,
+          },
+          {
+            withCredentials: true,
+          }
+        );
+
+      } else {
+        response = await axios.post(
+          "http://localhost:3000/users/login",
+          {
+            email,
+            password,
+          },
+          {
+            withCredentials: true,
+          }
+        );
+
+      }
+
+
       return response.data;
+
+
+
     } catch (error) {
       const message = error.response.data;
       return thunkAPI.rejectWithValue(message);
     }
   }
 );
+
+
+
+// export const loginUserAsync = createAsyncThunk(
+//   "loginUser",
+//   async ({ email, password }, thunkAPI) => {
+//     try {
+//       let response = null;
+
+//       // Send request to User login endpoint
+//       try {
+//         response = await axios.post(
+//           "http://localhost:3000/users/login",
+//           {
+//             email,
+//             password,
+//           },
+//           {
+//             withCredentials: true,
+//           }
+//         );
+//       } catch (userError) {
+//         // If user login fails, send request to Psychologist login endpoint
+//         try {
+//           response = await axios.post(
+//             "http://localhost:3000/psychologist/login",
+//             {
+//               email,
+//               password,
+//             },
+//             {
+//               withCredentials: true,
+//             }
+//           );
+//         } catch (psychologistError) {
+//           const message = psychologistError.response.data;
+//           return thunkAPI.rejectWithValue(message);
+//         }
+//       }
+
+//       return response.data;
+//     } catch (error) {
+//       const message = error.response.data;
+//       return thunkAPI.rejectWithValue(message);
+//     }
+//   }
+// );
+
+
+
 
 // logout user
 export const logoutUserAsync = createAsyncThunk(

@@ -1,9 +1,8 @@
 import { useEffect, useState } from "react";
-import Register from "../components/Register";
-import { toast } from "react-toastify";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { useSelector } from "react-redux";
+import { toast } from "react-toastify";
+import Register from "../components/Register";
 import { registerUserAsync, reset } from "../redux/slice/userSlice";
 const RegisterPage = () => {
   const dispatch = useDispatch();
@@ -28,10 +27,11 @@ const RegisterPage = () => {
     firstName: "",
     lastName: "",
     email: "",
+    phone:"",
     password: "",
   });
 
-  const { firstName, lastName, email, password } = registerData;
+  const { firstName, lastName, email, phone,password } = registerData;
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -58,7 +58,7 @@ const RegisterPage = () => {
       );
     }
     // dispathc
-    dispatch(registerUserAsync({ firstName, lastName, email, password }));
+    dispatch(registerUserAsync({ firstName, lastName, email,phone, password }));
   };
 
   return (

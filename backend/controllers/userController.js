@@ -3,9 +3,9 @@ import User from "../model/UserModel.js";
 // REGISTER
 export const registerUser = async (req, res) => {
   try {
-    const { firstName, lastName, email, password } = req.body;
+    const { firstName, lastName, email, phone,password } = req.body;
 
-    if (!firstName || !lastName || !email || !password) {
+    if (!firstName || !lastName || !email || !password || !phone) {
       return res.status(400).json("please, fill the empty field");
     }
 
@@ -18,6 +18,7 @@ export const registerUser = async (req, res) => {
       firstName,
       lastName,
       email,
+      phone,
       password,
     });
 
