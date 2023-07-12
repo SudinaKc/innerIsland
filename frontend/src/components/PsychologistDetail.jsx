@@ -8,30 +8,37 @@ const PsychologistDetail = ({ id }) => {
         fetchPsychologistDetail(id);
     }, [id]);
     console.log(psychologistDetail)
+    // const {expertise}=psychologistDetail
     return (
-        <div>
+        <div className='container'>
             <h1>{psychologistDetail.firstName + " " + psychologistDetail.lastName}</h1>
 
             <h1>psychologist detail</h1>
-            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quis nihil, suscipit atque at, ea hic nesciunt maiores aliquid quidem corporis minima itaque ipsam ducimus odit ex dicta iure rem? Illum.
-            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Culpa sit harum ut consectetur porro, explicabo quos maxime unde eveniet. Minima pariatur esse dignissimos nisi corporis eveniet perferendis recusandae ducimus exercitationem.
+          <p>--------</p>
             <br />
             <br />
             <h1>My expertise</h1>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam nam aperiam tempora placeat. Quasi eligendi tempore omnis nihil quo harum dignissimos molestiae. Iure illum quo distinctio corporis minima consectetur esse.
+            <p>----------</p>
+            {/* {
+                expertise.map((e,index)=>(
+                    <div key={index}>
+                        <p>{e}</p>
+                    </div>
+                ))
+            } */}
             <br />
             <hr />
             <div className="d-flex justify-content-evenly">
                 <div className="d-flex flex-column">
-                    Chat/Audio/Video
+                    Audio/Video
                     <br />
                     Provides Counselling and therapy via
-                    <br /> Audio Phone Call, Video Call, Chat.
+                    <br /> Audio Phone Call, Video Call
                 </div>
                 <div className="d-flex flex-column">
                     Availability <br />
-                    10 – 7 pm IST  ( Mon-Sat ) <br />
-                    *Flexible with Timings*
+                    {/* 10 – 7 pm IST  ( Mon-Sat ) <br /> */}
+                    {/* *Flexible with Timings* */}
                 </div>
                 <div className="d-flex flex-column">
                     Verified Psychologist

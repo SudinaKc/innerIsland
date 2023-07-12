@@ -10,6 +10,7 @@ const AppointmentsDetail = () => {
   const navigate = useNavigate();
   const { userId } = useParams();
   const { bookId } = useParams();
+  const { psychologistId } = useParams();
   let joinKey = bookId;
   console.log("userid " + userId);
   // console.log("appoitment id  " + userId);
@@ -30,14 +31,14 @@ const AppointmentsDetail = () => {
       }
     };
     fetchBookedAppointmentsByUserId(userId);
-  },[appointmentHistory]);
+  }, []);
   return (
     <div className="container mt-5">
       <div>
         <button
           className="btn btn-success"
           onClick={() => {
-            navigate(`/call/${joinKey}`);
+            navigate(`/call/${joinKey}/${user.user.firstName}`);
           }}
         >
           start session
@@ -46,11 +47,15 @@ const AppointmentsDetail = () => {
       {/* for psycologist-- this is list of user history to book with me */}
 
       <h3 className="mb-4">Appointment History</h3>
-      {
-        user.user.userType === "expert" ?
-        (
-          appointmentHistory.length > 0 &&
-          appointmentHistory.map((element) => (
+      {user.user.userType === "expert" &&
+        appointmentHistory.length > 0 &&
+        appointmentHistory
+          .filter(
+            (element) =>
+              element.psychologistId._id === psychologistId &&
+              element.userId._id === userId
+          )
+          .map((element) => (
             <div key={element._id} className="card mb-5">
               <div className="card-header">
                 <h5 className="card-title">Appointment Details</h5>
@@ -60,50 +65,67 @@ const AppointmentsDetail = () => {
                   <div className="col-sm-6">
                     <p>
                       <strong>Appointment ID:</strong> {element._id}
+                    </p>
+                    <p>
+                      <strong>Booked on:</strong>{" "}
+                      {new Date(element.updatedAt).toLocaleDateString()}{" "}
+                      {new Date(element.updatedAt).toLocaleTimeString([], {
+                        hour: "2-digit",
+                        minute: "2-digit",
+                        second: "2-digit",
+                      })}
                     </p>
                     <p>
                       <strong>patient Name:</strong> {element.userId.firstName}{" "}
                       {element.userId.lastName}
                     </p>
                     <p>
+                      <strong>problem :</strong>
+                      {element.problem}
+                    </p>
+                    <p>
                       <strong>Email:</strong> {element.userId.email}
                     </p>
-                  </div>
-                  <div className="col-sm-6">
-                    <p>
-                      <strong>Address:</strong> {element.address}
-                    </p>
-                    <p>
-                      <strong>Phone:</strong> {element.phone}
-                    </p>
+
                     <p>
                       <strong>Appointment Date:</strong>{" "}
                       {new Date(element.appointmentDate).toLocaleDateString()}
                     </p>
+                    <p>
+                      <strong>Appointment Time:</strong>{" "}
+                      {element.appointmentTime}
+                    </p>
                   </div>
+                  <div className="col-sm-6">
+                    <p>
+                      <strong>Address:</strong> {element.userId.address}
+                    </p>
+                    <p>
+                      <strong>Phone:</strong> {element.userId.phone}
+                    </p>
+                    <p>
+                      <strong>Gender:</strong> {element.userId.gender}
+                    </p>
+                    <p>
+                      <strong>Age:</strong> {element.userId.age}
+                    </p>
+                  </div>
+                  <div>prescriptions--------</div>
                 </div>
               </div>
             </div>
-          ))
-        )
-        : (
-          <div>
-            appointment not found
-          </div>
+          ))}
+      {/* for user page */}
 
-
-
-        )
-
-
-      }
-      {/* for uer page */}
-      {/* not working */}
-      {
-        user.user.userType === "user" ?
-        (
-          appointmentHistory.length > 0 &&
-          appointmentHistory.map((element) => (
+      {user.user.userType === "user" &&
+        appointmentHistory.length > 0 &&
+        appointmentHistory
+          .filter(
+            (element) =>
+              element.psychologistId._id === psychologistId &&
+              element.userId._id === user.user._id
+          )
+          .map((element) => (
             <div key={element._id} className="card mb-5">
               <div className="card-header">
                 <h5 className="card-title">Appointment Details</h5>
@@ -115,60 +137,58 @@ const AppointmentsDetail = () => {
                       <strong>Appointment ID:</strong> {element._id}
                     </p>
                     <p>
-                      <strong>Psychologist Name:</strong> {element.psychologistId.firstName}{" "}
+                      <strong>Booked on:</strong>{" "}
+                      {new Date(element.updatedAt).toLocaleDateString()}{" "}
+                      {new Date(element.updatedAt).toLocaleTimeString([], {
+                        hour: "2-digit",
+                        minute: "2-digit",
+                        second: "2-digit",
+                      })}
+                    </p>
+                    <p>
+                      <strong>Psychologist Name:</strong>{" "}
+                      {element.psychologistId.firstName}{" "}
                       {element.psychologistId.lastName}
+                    </p>
+                    <p>
+                      <strong>problem :</strong>
+                      {element.problem}
                     </p>
                     <p>
                       <strong>Email:</strong> {element.psychologistId.email}
                     </p>
-                  </div>
-                  <div className="col-sm-6">
-                    {/* <p>
-                      <strong>Address:</strong> {element.address}
-                    </p>
-                    <p>
-                      <strong>Phone:</strong> {element.phone}
-                    </p> */}
+
                     <p>
                       <strong>Appointment Date:</strong>{" "}
                       {new Date(element.appointmentDate).toLocaleDateString()}
                     </p>
+                    <p>
+                      <strong>Appointment Time:</strong>{" "}
+                      {element.appointmentTime}
+                    </p>
                   </div>
+                  <div className="col-sm-6">
+                    {/* <p>
+                      <strong>Address:</strong> {element.userId.address}
+                    </p>
+                    <p>
+                      <strong>Phone:</strong> {element.userId.phone}
+                    </p>
+                    <p>
+                      <strong>Gender:</strong> {element.userId.gender}
+                    </p>
+                    <p>
+                      <strong>Age:</strong> {element.userId.age}
+                    </p> */}
+                  </div>
+                  <div>prescriptions--------</div>
                 </div>
               </div>
             </div>
-          ))
-        )
-        : (
-          <div>
-            appointment not found
-          </div>
-
-
-
-        )
-
-      }
-
-
-
+          ))}
+      {appointmentHistory.length < 1 && <div>appointment not found</div>}
     </div>
   );
 };
 
 export default AppointmentsDetail;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

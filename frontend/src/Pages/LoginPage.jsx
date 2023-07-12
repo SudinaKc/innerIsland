@@ -9,7 +9,7 @@ import { loginUserAsync, reset } from "../redux/slice/userSlice";
 
 const LoginPage = () => {
   const dispatch = useDispatch();
-  const {  isSuccess, isError, message,user } = useSelector(
+  const { isSuccess, isError, message, user } = useSelector(
     (state) => state.user
   );
   const navigate = useNavigate();
@@ -23,20 +23,22 @@ const LoginPage = () => {
       toast.error(message);
     }
     if (isSuccess) {
-      // console.log(user.user._id)
-      navigate(`/support/${user.user._id}`);
+      // console.log(user.user._id)      
+      // navigate(`/support/${user.user._id}`);
       // console.log(user)
       toast.success("Login success", {
         autoClose: 500, // Duration in milliseconds (2 seconds)
-      }); 
-      navigate("/support")
+      });
+      // navigate("/support");
+      navigate("/");
+
     }
     dispatch(reset());
-  }, [isError, isSuccess, message, dispatch, navigate,user]);
+  }, [isError, isSuccess, message, dispatch, navigate, user]);
 
   const loginUser = async (e) => {
     e.preventDefault();
-    dispatch(loginUserAsync({ email, password ,userType}));
+    dispatch(loginUserAsync({ email, password, userType }));
   };
 
   return (
@@ -49,7 +51,6 @@ const LoginPage = () => {
         loginUser={loginUser}
         userType={userType}
         setUserType={setUserType}
-
       />
     </>
   );

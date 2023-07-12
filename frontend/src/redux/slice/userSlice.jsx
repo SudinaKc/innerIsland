@@ -14,7 +14,10 @@ const initialState = {
 // register user
 export const registerUserAsync = createAsyncThunk(
   "registerUser",
-  async ({ firstName, lastName, email,phone, password }, thunkAPI) => {
+  async (
+    { firstName, lastName, email, phone, password, age, address, gender },
+    thunkAPI
+  ) => {
     try {
       const response = await axios.post(
         "http://localhost:3000/users/register",
@@ -24,6 +27,9 @@ export const registerUserAsync = createAsyncThunk(
           email,
           phone,
           password,
+          age,
+          address,
+          gender,
         }
       );
       console.log(response.data);
@@ -39,7 +45,6 @@ export const registerUserAsync = createAsyncThunk(
 export const loginUserAsync = createAsyncThunk(
   "loginUser",
   async ({ email, password, userType }, thunkAPI) => {
-
     let response = null;
     try {
       if (userType === "expert") {
@@ -53,7 +58,6 @@ export const loginUserAsync = createAsyncThunk(
             withCredentials: true,
           }
         );
-
       } else {
         response = await axios.post(
           "http://localhost:3000/users/login",
@@ -65,22 +69,15 @@ export const loginUserAsync = createAsyncThunk(
             withCredentials: true,
           }
         );
-
       }
 
-
       return response.data;
-
-
-
     } catch (error) {
       const message = error.response.data;
       return thunkAPI.rejectWithValue(message);
     }
   }
 );
-
-
 
 // export const loginUserAsync = createAsyncThunk(
 //   "loginUser",
@@ -126,9 +123,6 @@ export const loginUserAsync = createAsyncThunk(
 //     }
 //   }
 // );
-
-
-
 
 // logout user
 export const logoutUserAsync = createAsyncThunk(

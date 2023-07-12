@@ -2,10 +2,12 @@ import { ZegoUIKitPrebuilt } from '@zegocloud/zego-uikit-prebuilt';
 import { useParams } from "react-router-dom";
 const VideoCall = () => {
     const { joinKey } = useParams();
+    const { userName } = useParams();
+
     const myMeeting = async (element) => {
         const appID = 1595951050;
         const serverSecret = "f0c6d49c3107597cf61dd8fa0eb23ec2";
-        const kitToken = ZegoUIKitPrebuilt.generateKitTokenForTest(appID, serverSecret, joinKey, Date.now().toString(), "anand");
+        const kitToken = ZegoUIKitPrebuilt.generateKitTokenForTest(appID, serverSecret, joinKey, Date.now().toString(), userName);
         const zp = ZegoUIKitPrebuilt.create(kitToken);
         zp.joinRoom({
             container: element,

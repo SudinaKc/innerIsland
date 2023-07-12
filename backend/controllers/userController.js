@@ -3,9 +3,18 @@ import User from "../model/UserModel.js";
 // REGISTER
 export const registerUser = async (req, res) => {
   try {
-    const { firstName, lastName, email, phone,password } = req.body;
+    const { firstName, lastName, email, phone, password,age,gender,address } = req.body;
 
-    if (!firstName || !lastName || !email || !password || !phone) {
+    if (
+      !firstName ||
+      !lastName ||
+      !email ||
+      !password ||
+      !phone ||
+      !age ||
+      !address ||
+      !gender
+    ) {
       return res.status(400).json("please, fill the empty field");
     }
 
@@ -19,6 +28,9 @@ export const registerUser = async (req, res) => {
       lastName,
       email,
       phone,
+      age,
+      address,
+      gender,
       password,
     });
 
@@ -28,7 +40,6 @@ export const registerUser = async (req, res) => {
     return res.status(400).json(e.message);
   }
 };
-
 
 // LOGIN
 export const loginUser = async (req, res) => {
@@ -46,7 +57,6 @@ export const loginUser = async (req, res) => {
     return res.status(400).json(error.message);
   }
 };
-
 
 // **************************************************
 // get single user

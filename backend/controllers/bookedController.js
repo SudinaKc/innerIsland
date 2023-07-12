@@ -4,22 +4,23 @@ import Booked from './../model/BookedModel.js';
 // Create a new booked appointment
 export const createBookedAppointment = async (req, res) => {
   try {
-    const { userId, psychologistId, appointmentDate, phone, address, age } = req.body;
+    const { userId, psychologistId, appointmentDate, appointmentTime ,problem} = req.body;
 
     const newAppointment = new Booked({
       userId,
       psychologistId,
       appointmentDate,
-      phone,
-      address,
-      age,
+      appointmentTime,
+      problem
     });
 
     const savedAppointment = await newAppointment.save();
 
     res.status(201).json(savedAppointment);
   } catch (error) {
-    res.status(500).json({ error: 'Failed to create booked appointment' });
+    // res.status(500).json({ error: 'Failed to create booked appointment' });
+    res.status(500).json( error);
+
   }
 };
 
@@ -27,7 +28,7 @@ export const createBookedAppointment = async (req, res) => {
 // Get all booked appointments
 export const getAllBookedAppointments = async (req, res) => {
   try {
-    const appointments = await Booked.find().populate("userId", "firstName lastName email").populate("psychologistId", "firstName lastName image email").sort({ updatedAt: -1 })
+    const appointments = await Booked.find().populate("userId", "firstName lastName email phone address gender").populate("psychologistId", "firstName lastName image email").sort({ updatedAt: -1 })
 
     res.status(200).json(appointments);
   } catch (error) {
@@ -111,7 +112,7 @@ export const getBookedAppointmentsByUserId = async (req, res) => {
   try {
     const { userId } = req.params;
 
-    const appointments = await Booked.find({ userId }).populate("userId", "firstName lastName email").populate("psychologistId", "firstName lastName image email").sort({ updatedAt: -1 });
+    const appointments = await Booked.find({ userId }).populate("userId", "firstName lastName email phone age address gender").populate("psychologistId", "firstName lastName image email").sort({ updatedAt: -1 });
 
     res.status(200).json(appointments);
   } catch (error) {

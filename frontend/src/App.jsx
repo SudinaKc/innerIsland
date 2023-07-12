@@ -32,9 +32,9 @@ const App = () => {
           <Route path="/support" Component={NewsFeedPage} />
           <Route path="/experts" Component={PsychologistListPage} />
           <Route path="/appointments" Component={AppointmentPage} />
-          <Route path="/appointments/:userId/:bookId" Component={AppointmentsDetailPage} />
+          <Route path="/appointments/:userId/:bookId/:psychologistId" Component={AppointmentsDetailPage} />
           <Route path="/expertDetail/:id" Component={PsychologistDetailPage} />
-          <Route path="/call/:joinKey" Component={VideoCallPage} />
+          <Route path="/call/:joinKey/:userName" Component={VideoCallPage} />
 
 
         </Routes>

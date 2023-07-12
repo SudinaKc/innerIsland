@@ -27,11 +27,14 @@ const RegisterPage = () => {
     firstName: "",
     lastName: "",
     email: "",
-    phone:"",
+    phone: "",
     password: "",
+    age: "",
+    address: "",
+    gender: "",
   });
-
-  const { firstName, lastName, email, phone,password } = registerData;
+  
+  const { firstName, lastName, email, phone,password,age,address,gender } = registerData;
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -58,7 +61,7 @@ const RegisterPage = () => {
       );
     }
     // dispathc
-    dispatch(registerUserAsync({ firstName, lastName, email,phone, password }));
+    dispatch(registerUserAsync({ firstName, lastName, email,phone, password,age,address,gender }));
   };
 
   return (
@@ -67,6 +70,10 @@ const RegisterPage = () => {
         firstName={firstName}
         lastName={lastName}
         email={email}
+        phone={phone}
+        age={age}
+        address={address}
+        gender={gender}
         password={password}
         handleChange={handleChange}
         registerUser={registerUser}

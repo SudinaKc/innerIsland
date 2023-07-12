@@ -40,6 +40,10 @@ app.use("/rooms", (req, res) => {
 
 const port = process.env.PORT || 3000;
 
+
+
+
+// connectin to db
 // Start the server
 const Connection = async () => {
   try {

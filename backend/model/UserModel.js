@@ -32,7 +32,17 @@ const UserSchema = new mongoose.Schema(
           return /^\d{10}$/.test(value);
         },
         message: "Invalid phone number",
-      }},
+      },
+    },
+    age: {
+      type: String,
+    },
+    address: {
+      type: String,
+    },
+    gender: {
+      type: String,
+    },
     password: {
       type: String,
       required: [true, "Password can't be blank"],
