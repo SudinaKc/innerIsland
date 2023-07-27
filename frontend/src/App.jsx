@@ -14,33 +14,34 @@ import RegisterPage from "./Pages/RegisterPage";
 import VideoCallPage from "./Pages/VideoCallPage";
 import Footer from "./components/Footer";
 import Header from "./components/Header";
+import PaymentSuccess from "./components/PaymentSuccess";
 // import { AppContext } from "./context/AppContext";
 const App = () => {
   // const {fetchPsychologists}=useContext(AppContext);
   // useEffect(()=>{
   //     fetchPsychologists;
   // },[])
-  
+
   return (
-      <BrowserRouter>
-        <Header />
-        <Routes>
-          <Route path="/" Component={HomePage} />
-          <Route path="/login" Component={LoginPage} />
-          <Route path="/register" Component={RegisterPage} />
-          <Route path="/dashboard" Component={Dashboard} />
-          <Route path="/support" Component={NewsFeedPage} />
-          <Route path="/experts" Component={PsychologistListPage} />
-          <Route path="/appointments" Component={AppointmentPage} />
-          <Route path="/appointments/:userId/:bookId/:psychologistId" Component={AppointmentsDetailPage} />
-          <Route path="/expertDetail/:id" Component={PsychologistDetailPage} />
-          <Route path="/call/:joinKey/:userName" Component={VideoCallPage} />
+    <BrowserRouter>
+      <Header />
+      <Routes>
+        <Route path="/" Component={HomePage} />
+        <Route path="/login" Component={LoginPage} />
+        <Route path="/register" Component={RegisterPage} />
+        <Route path="/dashboard" Component={Dashboard} />
+        <Route path="/support" Component={NewsFeedPage} />
+        <Route path="/experts" Component={PsychologistListPage} />
+        <Route path="/appointments" Component={AppointmentPage} />
+        <Route path="/appointments/:userId/:bookId/:psychologistId" Component={AppointmentsDetailPage} />
+        <Route path="/expertDetail/:id" Component={PsychologistDetailPage} />
+        <Route path="/call/:joinKey/:userName" Component={VideoCallPage} />
+        <Route path="/paymentsuccess" element={<PaymentSuccess />} />
 
-
-        </Routes>
-        <Footer />
-        <ToastContainer />
-      </BrowserRouter>
+      </Routes>
+      <Footer />
+      <ToastContainer />
+    </BrowserRouter>
   );
 };
 

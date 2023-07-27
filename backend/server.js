@@ -7,6 +7,7 @@ import { Server } from "socket.io";
 import connectDB from "./database/connectDB.js";
 import psychologistRoutes from "./routes/PsychologistRoutes.js";
 import bookedRoutes from './routes/bookedRoutes.js';
+import paymentRoute from "./routes/paymentRoute.js";
 import postRoutes from "./routes/postRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
 dotenv.config();
@@ -19,6 +20,7 @@ app.use(cors({ origin: "http://localhost:5173", credentials: true }));
 app.use(cookieParser());
 app.use("/users", userRoutes); // Mount the userRouter at the root path ("/")
 app.use(postRoutes);    
+app.use("/api",paymentRoute)
 app.use("/psychologist",psychologistRoutes)
 app.use("/api",bookedRoutes);
 // Create HTTP server

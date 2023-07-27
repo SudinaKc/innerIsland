@@ -34,18 +34,18 @@ const AppointmentsDetail = () => {
   }, []);
   return (
     <div className="container mt-5">
-      <div>
+      <div style={{ textAlign: "right" }}>
         <button
           className="btn btn-success"
           onClick={() => {
             navigate(`/call/${joinKey}/${user.user.firstName}`);
           }}
+
         >
           start session
         </button>
       </div>
-      {/* for psycologist-- this is list of user history to book with me */}
-
+      {/* for psycologist-- this is list of user history to book with me - for psychologist login */}
       <h3 className="mb-4">Appointment History</h3>
       {user.user.userType === "expert" &&
         appointmentHistory.length > 0 &&
@@ -115,6 +115,15 @@ const AppointmentsDetail = () => {
               </div>
             </div>
           ))}
+
+
+
+
+      {/* *********************** */}
+      {/* ********************** */}
+      {/* ****************************************
+           */}
+      {/* ********************* */}
       {/* for user page */}
 
       {user.user.userType === "user" &&

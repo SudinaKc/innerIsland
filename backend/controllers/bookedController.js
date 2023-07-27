@@ -4,14 +4,15 @@ import Booked from './../model/BookedModel.js';
 // Create a new booked appointment
 export const createBookedAppointment = async (req, res) => {
   try {
-    const { userId, psychologistId, appointmentDate, appointmentTime ,problem} = req.body;
+    const { userId, psychologistId, appointmentDate, appointmentTime ,problem,payment_id} = req.body;
 
     const newAppointment = new Booked({
       userId,
       psychologistId,
       appointmentDate,
       appointmentTime,
-      problem
+      problem,
+      payment_id
     });
 
     const savedAppointment = await newAppointment.save();

@@ -13,6 +13,10 @@ const BookedSchema = new mongoose.Schema(
 
       required: [true, "Psychologist ID can't be blank"],
     },
+    payment_id: {
+      type: Schema.Types.ObjectId,
+      ref: "Payment",
+    },
     appointmentDate: {
       type: Date,
       // type: String,
