@@ -23,9 +23,7 @@ const LoginPage = () => {
       toast.error(message);
     }
     if (isSuccess) {
-      // console.log(user.user._id)      
-      // navigate(`/support/${user.user._id}`);
-      // console.log(user)
+      
       toast.success("Login success", {
         autoClose: 500, // Duration in milliseconds (2 seconds)
       });

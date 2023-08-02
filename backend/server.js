@@ -9,6 +9,7 @@ import psychologistRoutes from "./routes/PsychologistRoutes.js";
 import bookedRoutes from './routes/bookedRoutes.js';
 import paymentRoute from "./routes/paymentRoute.js";
 import postRoutes from "./routes/postRoutes.js";
+import sendEmailRoute from "./routes/sendEmailRoute.js";
 import userRoutes from "./routes/userRoutes.js";
 dotenv.config();
 const app = express();
@@ -23,6 +24,7 @@ app.use(postRoutes);
 app.use("/api",paymentRoute)
 app.use("/psychologist",psychologistRoutes)
 app.use("/api",bookedRoutes);
+app.use("/api",sendEmailRoute);
 // Create HTTP server
 const httpServer = createServer(app);
 
