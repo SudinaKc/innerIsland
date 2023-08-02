@@ -4,7 +4,7 @@ import Booked from './../model/BookedModel.js';
 // Create a new booked appointment
 export const createBookedAppointment = async (req, res) => {
   try {
-    const { userId, psychologistId, appointmentDate, appointmentTime ,problem,payment_id} = req.body;
+    const { userId, psychologistId, appointmentDate, appointmentTime, problem, payment_id } = req.body;
 
     const newAppointment = new Booked({
       userId,
@@ -20,7 +20,7 @@ export const createBookedAppointment = async (req, res) => {
     res.status(201).json(savedAppointment);
   } catch (error) {
     // res.status(500).json({ error: 'Failed to create booked appointment' });
-    res.status(500).json( error);
+    res.status(500).json(error);
 
   }
 };
@@ -44,7 +44,7 @@ export const getBookedAppointmentById = async (req, res) => {
   try {
     const { id } = req.params;
 
-    const appointment = await Booked.findById(id);
+    const appointment = await Booked.findById(id).populate("userId", "firstName lastName email").populate("psychologistId", "firstName lastName email ").populate("payment_id", "razorpay_payment_id");
 
     if (!appointment) {
       res.status(404).json({ error: 'Booked appointment not found' });

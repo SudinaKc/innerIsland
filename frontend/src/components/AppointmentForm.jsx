@@ -14,9 +14,10 @@ const AppointmentForm = () => {
     appointmentTime: "",
     problem: ""
   });
+  const [paymentSuccess, setPaymentSuccess] = useState(false);
   const [booked, setBooked] = useState(false);
   const { appointmentDate, appointmentTime, problem } = appointmentData;
-
+  const [bookedId, setBookedId] = useState(null);
   function changeHandler(e) {
     const { name, value } = e.target;
     setAppointmentData((prevData) => ({
@@ -42,7 +43,9 @@ const AppointmentForm = () => {
           appointmentTime: "",
           problem: ""
         });
+        setPaymentSuccess(true)
         setBooked(true);
+        setBookedId(response.data._id)
         console.log(response.data); // Handle the response as needed
       } catch (error) {
         console.error(error);
@@ -51,6 +54,36 @@ const AppointmentForm = () => {
 
     fetchdata();
   }
+
+
+  const handlePaymentSuccess = async (bookedId) => {
+    // fetching appointment by appointment id used to send email 
+    const { data } = await axios.get(`http://localhost:3000/api/booked/${bookedId}`)
+
+    console.log(data)
+
+    const paymentData = {
+      userEmail: user.user.email, // Replace with the user's email address
+      PsychologistName: data.psychologistId.firstName + " " + data.psychologistId.lastName, // Replace with the product name
+      // amount: 100, // Replace with the payment amount
+      appointmentDate: new Date(data.appointmentDate).toLocaleDateString(),
+      appointmentTime: data.appointmentTime, // Replace with the appointment time
+      razorpay_payment_id: data.payment_id.razorpay_payment_id,
+      psychologistEmail: data.psychologistId.email,
+      patientName: user.user.firstName + " " + user.user.lastName
+      // problem: "Appointment issue", // Replace with the appointment problem/description
+    };
+
+    try {
+      await axios.post("http://localhost:3000/api/paymentSuccess", paymentData);//payment success is send email route
+      // setPaymentSuccess(true);
+      console.log("Email sent successfully!");
+    } catch (error) {
+      console.error("Error sending email:", error);
+    }
+    setPaymentSuccess(false)
+  };
+  paymentSuccess && handlePaymentSuccess(bookedId);
   // post to payment document in database 
   async function paymentHandler(razorpay_payment_id, razorpay_order_id, razorpay_signature) {
     console.log("first")
@@ -84,7 +117,6 @@ const AppointmentForm = () => {
         description: "Test Transaction",
         // image: {Logo},
         order_id: data.order.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
-        // callback_url: "http://localhost:3000/api/paymentVerification",
         "handler": function (response) {
 
           paymentHandler(response.razorpay_payment_id, response.razorpay_order_id, response.razorpay_signature);
