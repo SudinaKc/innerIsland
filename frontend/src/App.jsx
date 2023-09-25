@@ -3,12 +3,12 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./App.css";
+import About from "./Pages/About";
 import { AppointmentPage } from "./Pages/AppointmentPage";
 import AppointmentsDetailPage from "./Pages/AppointmentsDetailPage";
-import Dashboard from "./Pages/Dashboard";
 import HomePage from "./Pages/HomePage";
 import LoginPage from "./Pages/LoginPage";
-import NewsFeedPage from "./Pages/NewsFeedPage";
+import ProfilePage from "./Pages/ProfilePage";
 import PsychologistDetailPage from "./Pages/PsychologistDetailPage";
 import PsychologistListPage from "./Pages/PsychologistListPage";
 import RegisterPage from "./Pages/RegisterPage";
@@ -17,17 +17,20 @@ import Footer from "./components/Footer";
 import Header from "./components/Header";
 import PaymentSuccess from "./components/PaymentSuccess";
 import PrivateRoute from "./private/PrivateRoute";
+
 const App = () => {
   const { user } = useSelector((state) => state.user);
+
+  // Check if the current pathname is "/about"
   return (
     <BrowserRouter>
       <Header />
       <Routes>
+        <Route path="/about" element={<About />} />
+
         <Route path="/" element={<HomePage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
-        <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/support" element={<NewsFeedPage />} />
         <Route path="/experts" element={<PsychologistListPage />} />
 
         <Route path="/appointments" element={<PrivateRoute user={user}><AppointmentPage /></PrivateRoute>} />
@@ -47,9 +50,9 @@ const App = () => {
         <Route
           path="/expertDetail/:id"
           element={
-            <PrivateRoute user={user}>
+            // <PrivateRoute user={user}>
               <PsychologistDetailPage />
-            </PrivateRoute>
+            // </PrivateRoute>
           }
         />
         <Route
@@ -68,8 +71,15 @@ const App = () => {
             </PrivateRoute>
           }
         />
-
+        <Route path="/profile" element={
+          <PrivateRoute user={user}>
+            <ProfilePage />
+          </PrivateRoute>
+        } />
       </Routes>
+      {
+
+      }
       <Footer />
       <ToastContainer />
     </BrowserRouter>

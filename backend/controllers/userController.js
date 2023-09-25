@@ -1,9 +1,20 @@
+import { RegisterSuccessMail } from "../mail/template/RegisterSuccessMail.js";
 import User from "../model/UserModel.js";
+import mailSender from "../utils/mailSender.js";
 
 // REGISTER
 export const registerUser = async (req, res) => {
   try {
-    const { firstName, lastName, email, phone, password,age,gender,address } = req.body;
+    const {
+      firstName,
+      lastName,
+      email,
+      phone,
+      password,
+      age,
+      gender,
+      address,
+    } = req.body;
 
     if (
       !firstName ||
@@ -32,9 +43,16 @@ export const registerUser = async (req, res) => {
       address,
       gender,
       password,
+      image: `https://api.dicebear.com/5.x/initials/svg?seed=${firstName} ${lastName}`,
     });
 
     const token = await user.generateToken();
+    await mailSender(
+      email,
+      "Welcome to InnerIsland - Registration Successful 🎉",
+      RegisterSuccessMail(firstName, lastName)
+    );
+
     res.status(200).json({ user });
   } catch (e) {
     return res.status(400).json(e.message);
@@ -46,6 +64,12 @@ export const loginUser = async (req, res) => {
   try {
     const { email, password } = req.body;
     const user = await User.findByCredentials(email, password);
+    if (!user) {
+      return res.status(400).json({
+        success: false,
+        message: "user not found , please register",
+      });
+    }
     user.status = "online";
     const token = await user.generateToken();
 

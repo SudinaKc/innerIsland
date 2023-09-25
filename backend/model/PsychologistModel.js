@@ -34,9 +34,10 @@ const PsychologistSchema = new mongoose.Schema(
         specialization: {
             type: String
         },
-        expertise: {
-            type: Array
+        price: {
+            type: String
         },
+
         experience: {
             type: String
         },

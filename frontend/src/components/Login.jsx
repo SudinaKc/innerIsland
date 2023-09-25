@@ -119,7 +119,7 @@ const Login = ({
                         <Link to={"/register"}>
                           <button
                             type="button"
-                            className="btn btn-outline-danger"
+                            className="btn btn-outline-success"
                           >
                             Create new
                           </button>

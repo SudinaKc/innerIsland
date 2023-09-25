@@ -4,15 +4,15 @@ import Booked from './../model/BookedModel.js';
 // Create a new booked appointment
 export const createBookedAppointment = async (req, res) => {
   try {
-    const { userId, psychologistId, appointmentDate, appointmentTime, problem, payment_id } = req.body;
-
+    const { userId, psychologistId, appointmentDate, appointmentTime, problem, payment_id, duration } = req.body;
     const newAppointment = new Booked({
       userId,
       psychologistId,
       appointmentDate,
       appointmentTime,
       problem,
-      payment_id
+      payment_id,
+      duration
     });
 
     const savedAppointment = await newAppointment.save();
@@ -63,11 +63,11 @@ export const getBookedAppointmentById = async (req, res) => {
 export const updateBookedAppointment = async (req, res) => {
   try {
     const { id } = req.params;
-    const { appointmentDate, phone, address, age } = req.body;
+    const { prescription } = req.body;
 
     const updatedAppointment = await Booked.findByIdAndUpdate(
       id,
-      { appointmentDate, phone, address, age },
+      { prescription },
       { new: true }
     );
 
@@ -121,4 +121,25 @@ export const getBookedAppointmentsByUserId = async (req, res) => {
   }
 };
 
+
+// get by date 
+export const fetchByDate = async (req, res) => {
+  try {
+    const { date } = req.param; // Use req.query to access query parameters
+    console.log(date)
+    const appointments = await Booked.find({ appointmentDate:date });
+
+    if (!appointments) {
+      res.status(404).json({ error: 'Booked appointment not found' });
+      return;
+    } 
+
+    res.status(200).json({
+      success: true,
+      appointments,
+    });
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to fetch booked appointment' });
+  }
+};
 

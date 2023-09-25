@@ -8,7 +8,7 @@ import connectDB from "./database/connectDB.js";
 import psychologistRoutes from "./routes/PsychologistRoutes.js";
 import bookedRoutes from './routes/bookedRoutes.js';
 import paymentRoute from "./routes/paymentRoute.js";
-import postRoutes from "./routes/postRoutes.js";
+import ratingAndReview from "./routes/ratingAndReview.js";
 import sendEmailRoute from "./routes/sendEmailRoute.js";
 import userRoutes from "./routes/userRoutes.js";
 dotenv.config();
@@ -20,25 +20,22 @@ app.use(express.json());
 app.use(cors({ origin: "http://localhost:5173", credentials: true }));
 app.use(cookieParser());
 app.use("/users", userRoutes); // Mount the userRouter at the root path ("/")
-app.use(postRoutes);    
-app.use("/api",paymentRoute)
-app.use("/psychologist",psychologistRoutes)
-app.use("/api",bookedRoutes);
-app.use("/api",sendEmailRoute);
+app.use("/api", paymentRoute)
+app.use("/psychologist", psychologistRoutes)
+app.use("/api", bookedRoutes);
+app.use("/api",ratingAndReview)
+app.use("/api", sendEmailRoute);
 // Create HTTP server
 const httpServer = createServer(app);
 
 // Create socket.io server
 const io = new Server(httpServer, {
   cors: {
-    origin: "http://localhost:5173", // frontend link
+    origin:"http://localhost:5173", // frontend link
     methods: ["GET", "POST"],
   },
 });
 
-app.use("/rooms", (req, res) => {
-  res.send(rooms);
-});
 
 // Express routes
 
@@ -60,7 +57,7 @@ const Connection = async () => {
   }
 };
 
-app.use("/",(req,res)=>{
-    res.send("hello from server");
+app.use("/", (req, res) => {
+  res.send("hello from server");
 })
 Connection();

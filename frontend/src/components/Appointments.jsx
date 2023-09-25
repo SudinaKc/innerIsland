@@ -12,7 +12,7 @@ const Appointments = () => {
   useEffect(() => {
     const fetchBookings = async () => {
       try {
-        const { data } = await axios.get("http://localhost:3000/api/booked");
+        const { data } = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/booked`);
         setAppointmentsList(data);
       } catch (error) {
         console.log(error);
@@ -57,7 +57,8 @@ const Appointments = () => {
         <div className="row">
           <div className="col">
             <h3 className="mb-4">Appointments</h3>
-            {latestAppointmentsArray.length > 0 && (
+            {
+            latestAppointmentsArray.length > 0 && (
               <>
                 {latestAppointmentsArray.map((element) => (
                   <div
@@ -65,6 +66,9 @@ const Appointments = () => {
                     className="row mb-3 bg-white py-3 align-items-center rounded"
                     style={{ cursor: "pointer" }}
                   >
+                    {/* <div className="col">
+                      <img src={element.userId.image} alt=" img" />
+                    </div> */}
                     <div className="col">
                       <strong>Patient Name:</strong> {element.userId.firstName}{" "}
                       {element.userId.lastName}
