@@ -1,9 +1,11 @@
 import crypto from "crypto";
+import dotenv from "dotenv";
 import Razorpay from "razorpay";
 import { Payment } from "../model/PaymentModel.js";
+dotenv.config();
 const instance = new Razorpay({
-  key_id: "rzp_test_coskO447LTXUNv",
-  key_secret: "BeGu6yJGVtKeODIKooqL5YAE",
+  key_id: process.env.RAZORPAY_KEY_ID,
+  key_secret: process.env.RAZORPAY_SECRET_KEY,
 });
 export const createOrder = async (req, res) => {
   try {

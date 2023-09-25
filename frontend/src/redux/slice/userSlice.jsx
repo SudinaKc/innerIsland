@@ -20,7 +20,7 @@ export const registerUserAsync = createAsyncThunk(
   ) => {
     try {
       const response = await axios.post(
-        "http://localhost:3000/users/register",
+        `${import.meta.env.VITE_BACKEND_URL}/users/register`,
         {
           firstName,
           lastName,
@@ -49,7 +49,7 @@ export const loginUserAsync = createAsyncThunk(
     try {
       if (userType === "expert") {
         response = await axios.post(
-          "http://localhost:3000/psychologist/login",
+          `${import.meta.env.VITE_BACKEND_URL}/psychologist/login`,
           {
             email,
             password,
@@ -60,7 +60,7 @@ export const loginUserAsync = createAsyncThunk(
         );
       } else {
         response = await axios.post(
-          "http://localhost:3000/users/login",
+          `${import.meta.env.VITE_BACKEND_URL}/users/login`,
           {
             email,
             password,

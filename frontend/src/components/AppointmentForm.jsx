@@ -3,20 +3,22 @@ import { useState } from "react";
 import { useSelector } from "react-redux";
 import { Link, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
-const AppointmentForm = () => {
+const AppointmentForm = ({ price }) => {
   const { user } = useSelector((state) => state.user);
   const userId = user.user._id;
   const { id } = useParams();
+  const [unavailable, setUnavailable] = useState([])
   const psychologistId = id;
-
+  price = parseInt(price)
   const [appointmentData, setAppointmentData] = useState({
     appointmentDate: "",
     appointmentTime: "",
-    problem: ""
+    problem: "",
+    duration: "1"
   });
   const [paymentSuccess, setPaymentSuccess] = useState(false);
   const [booked, setBooked] = useState(false);
-  const { appointmentDate, appointmentTime, problem } = appointmentData;
+  const { appointmentDate, appointmentTime, problem, duration } = appointmentData;
   const [bookedId, setBookedId] = useState(null);
   function changeHandler(e) {
     const { name, value } = e.target;
@@ -26,11 +28,26 @@ const AppointmentForm = () => {
     }));
   }
 
+  async function fetchBookings(e) {
+    try {
+      const { data } = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/booked`);
+      const today = data.filter((ele) => ele.appointmentDate.split('T')[0] == e.target.value)
+      console.log(today)
+      setUnavailable(today)
+
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  console.log(appointmentDate)
+  console.log(typeof appointmentDate)
+
   function submitHandler(payment_id) {
     // event.preventDefault();
     const fetchdata = async () => {
       try {
-        const response = await axios.post("http://localhost:3000/api/booked", {
+        const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/booked`, {
           userId,
           psychologistId,
           payment_id,
@@ -58,24 +75,26 @@ const AppointmentForm = () => {
 
   const handlePaymentSuccess = async (bookedId) => {
     // fetching appointment by appointment id used to send email 
-    const { data } = await axios.get(`http://localhost:3000/api/booked/${bookedId}`)
+    const { data } = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/booked/${bookedId}`)
 
     console.log(data)
-
     const paymentData = {
       userEmail: user.user.email, // Replace with the user's email address
       PsychologistName: data.psychologistId.firstName + " " + data.psychologistId.lastName, // Replace with the product name
       // amount: 100, // Replace with the payment amount
       appointmentDate: new Date(data.appointmentDate).toLocaleDateString(),
       appointmentTime: data.appointmentTime, // Replace with the appointment time
+      duration: data.duration +"hour",
+      problem:data.problem,
       razorpay_payment_id: data.payment_id.razorpay_payment_id,
       psychologistEmail: data.psychologistId.email,
-      patientName: user.user.firstName + " " + user.user.lastName
+      patientName: user.user.firstName + " " + user.user.lastName,
+      bookedId:bookedId
       // problem: "Appointment issue", // Replace with the appointment problem/description
     };
 
     try {
-      await axios.post("http://localhost:3000/api/paymentSuccess", paymentData);//payment success is send email route
+      await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/paymentSuccess`, paymentData);//payment success is send email route
       // setPaymentSuccess(true);
       console.log("Email sent successfully!");
     } catch (error) {
@@ -88,7 +107,7 @@ const AppointmentForm = () => {
   async function paymentHandler(razorpay_payment_id, razorpay_order_id, razorpay_signature) {
     console.log("first")
     try {
-      const { data } = await axios.post("http://localhost:3000/api/paymentVerification", {
+      const { data } = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/paymentVerification`, {
         razorpay_payment_id,
         razorpay_order_id,
         razorpay_signature
@@ -104,15 +123,25 @@ const AppointmentForm = () => {
 
   }
   // checkout for checkout
-  const checkoutHandler = async (amount) => {
+  const checkoutHandler = async (amount, appointmentData) => {
+    // const { appointmentDate, appointmentTime, duration, problem } = appointmentData
+    // if (!appointmentDate || !appointmentTime || !duration || !problem) {
+    //   return toast.error("All fields are required ")
+    // }
+    // console.log(appointmentDate)
+    // if (new Date(appointmentDate) <= Date.now()) {
+    //   return toast.error("You can't book in the past");
+    // }
+
+
     try {
-      const { data } = await axios.post("http://localhost:3000/api/order", {
+      const { data } = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/order`, {
         amount,
       });
       const options = {
         key: "rzp_test_coskO447LTXUNv", // Enter the Key ID generated from the Dashboard
         amount: data.order.amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
-        currency: "INR",
+        currency: "NPR",
         name: "innerIsland",
         description: "Test Transaction",
         // image: {Logo},
@@ -122,9 +151,11 @@ const AppointmentForm = () => {
           paymentHandler(response.razorpay_payment_id, response.razorpay_order_id, response.razorpay_signature);
         },
         prefill: {
-          // name: {psychologistId},
-          email: "gaurav.kumar@example.com",
-          contact: "9000090000",
+          name: user.user.firstName + " " + user.user.lastName,
+          email: user.user.email,
+          userId: user.user._id,
+          // contact: "9000090000",
+          contact: ""
         },
         notes: {
           address: "Razorpay Corporate Office",
@@ -157,9 +188,9 @@ const AppointmentForm = () => {
 
 
   return (
-    <div className="container" style={{ width: "600px" }}>
-      <h5>pricing:---- </h5>
-      <h1>Book session now </h1>
+    <div className="container my-5" >
+      {/* <h5>pricing:---- </h5> */}
+      {/* <h1>Book session now </h1> */}
 
       <div
         // onSubmit={submitHandler} 
@@ -209,6 +240,7 @@ const AppointmentForm = () => {
               id="address"
               className="form-control bg-light"
               type="text"
+              readOnly
               onChange={changeHandler}
               name="address"
               value={user.user.address}
@@ -232,29 +264,77 @@ const AppointmentForm = () => {
           <div className="col-md-6">
             <label htmlFor="appointmentDate" className="form-label">
               Appointment Date:
+              <sup style={{ color: "green", fontSize: "12px" }}>*</sup>
+
             </label>
             <input
               id="appointmentDate"
               className="form-control"
               type="date"
-              onChange={changeHandler}
+              min={new Date().toISOString().split('T')[0]}
+              onChange={(e) => {
+                changeHandler(e); // Call the changeHandler function with the event
+                fetchBookings(e);    // Call the fetchByDate function
+              }}
               name="appointmentDate"
               value={appointmentDate}
+              required
             />
+
+          </div>
+          <div className={`${unavailable.length > 0 ? "bg-info-subtle" : ``}`}>
+            {
+              unavailable.length > 0 &&
+              <span>
+
+                unavailable time slot
+              </span>
+            }
+
+            <br />
+            {
+              unavailable &&
+              unavailable.map((ele) => (
+                <div key={ele.id}>
+                  {ele.appointmentTime} to {parseInt(ele.appointmentTime.split(":")[0]) + ele?.duration + `:${ele.appointmentTime.split(":")[1]}`}
+                </div>
+              ))
+            }
           </div>
         </div>
         <div className="row mb-3">
           <div className="col-md-6">
             <label htmlFor="appointmentTime" className="form-label">
               Appointment Time:
+              <sup style={{ color: "green", fontSize: "12px" }}>*</sup>
+
             </label>
+            {/* time picker */}
             <input
               id="appointmentTime"
               className="form-control"
               type="time"
               onChange={changeHandler}
               name="appointmentTime"
+              required
               value={appointmentTime}
+            />
+            <div style={{ width: "700px" }}>
+            </div>
+          </div>
+          <div className="col-md-6">
+            <label htmlFor="duration" className="form-label">
+              Duration in hour:
+              <sup style={{ color: "green", fontSize: "12px" }}>*</sup>
+            </label>
+            <input
+              id="duration"
+              className="form-control"
+              type="number"
+              onChange={changeHandler}
+              name="duration"
+              value={duration}
+              required
             />
           </div>
           {/* symptoms */}
@@ -262,7 +342,8 @@ const AppointmentForm = () => {
         </div>
         <div className="col-md-12 mb-4">
           <label htmlFor="problem" className="form-label">
-            Problem Description:
+            Issue facing
+            <sup style={{ color: "green", fontSize: "12px" }}>*</sup>
           </label>
           <textarea
             id="problem"
@@ -271,6 +352,7 @@ const AppointmentForm = () => {
             onChange={changeHandler}
             name="problem"
             value={problem}
+            required
           />
         </div>
         <div className="text-center">
@@ -283,7 +365,7 @@ const AppointmentForm = () => {
             </p>
           )}
           <button className="btn btn-success btn-rounded button"
-            onClick={() => checkoutHandler(2000)}
+            onClick={() => checkoutHandler(price * duration, appointmentData)}
           >
             Book Session
           </button>
@@ -294,3 +376,9 @@ const AppointmentForm = () => {
 };
 
 export default AppointmentForm;
+
+
+
+
+
+

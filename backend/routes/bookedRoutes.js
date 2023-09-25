@@ -2,6 +2,7 @@ import express from 'express';
 import {
     createBookedAppointment,
     deleteBookedAppointment,
+    fetchByDate,
     getAllBookedAppointments,
     getBookedAppointmentById,
     getBookedAppointmentsByUserId,
@@ -19,12 +20,16 @@ router.get('/booked', getAllBookedAppointments);
 router.get('/booked/:id', getBookedAppointmentById);
 
 // Update a booked appointment
-router.put('/booked/:id', updateBookedAppointment);
+router.patch('/booked/:id', updateBookedAppointment);
 
 // Delete a booked appointment
 router.delete('/booked/:id', deleteBookedAppointment);
 
 // GET booked appointments by user ID
 router.get('/booked/user/:userId', getBookedAppointmentsByUserId);
+
+
+// fetchbydate
+router.get("/booked/date/:date",fetchByDate)
 
 export default router;
