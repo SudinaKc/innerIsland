@@ -18,12 +18,15 @@ const PsychologistDetail = ({ id }) => {
   const { psychologistDetail } = useContext(AppContext);
   const { fetchPsychologistDetail } = useContext(AppContext);
   const [review, setReview] = useState('');
-
+  const [toggleEdit, setToggleEdit] = useState(false)
   const [rating, setRating] = useState(0);
   const [allratings, setAllratings] = useState([]);
   const handleRating = (rate) => {
     setRating(rate);
   };
+  const [ratingUpdate, setRatingUpdate] = useState(0)
+  const [reviewUpdate, setReviewUpdate] = useState("");
+
 
   async function reviewSubmitHandler() {
     try {
@@ -56,16 +59,40 @@ const PsychologistDetail = ({ id }) => {
     try {
       const { data } = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/getRating/${id}`);
       const { ratingsAndReviews } = data;
+      console.log(ratingsAndReviews)
+
       setAllratings(ratingsAndReviews);
     } catch (error) {
       console.log(error);
     }
   };
-
   useEffect(() => {
     fetchReview(id);
   }, [rating, review]);
 
+  const alreadyRated = allratings.filter((ele) => {
+    // setReviewUpdate(alreadyRated[0].review)
+    return ele.userId._id == userId && ele.psychologistId == id
+  })
+  console.log(alreadyRated[0])
+  // *****************************************************************************************
+
+  async function reviewUpdateHandler() {
+    try {
+      const response = await axios.patch(`${import.meta.env.VITE_BACKEND_URL}/api/updateRating`, {
+        id: alreadyRated[0]._id,
+        review,
+        rating
+      })
+      toast.success("review updated successfully")
+      await fetchReview(id)
+    } catch (error) {
+      console.log(error)
+    }
+
+  }
+
+const [visible,setVisible]=useState(true)
   return (
     <div className="container my-5">
       <div className="row">
@@ -146,6 +173,7 @@ const PsychologistDetail = ({ id }) => {
       <div className="row">
         {
           user &&
+          !alreadyRated &&
           user.user.userType !== "expert" &&
           <div className="col-md-6">
             <h2>Rate and Review</h2>
@@ -176,10 +204,57 @@ const PsychologistDetail = ({ id }) => {
           </div>
         }
 
+        {/* edit option if already rated  */}
+        {
+          user &&
+          alreadyRated &&
+          toggleEdit &&
+          user.user.userType !== "expert" &&
+          <div className="col-md-6 " style={visible ? {  } : {visibility: "hidden"}}>
+            <h2>Rate and Review</h2>
+
+            <div className="mb-4">
+              <Rating
+                onClick={handleRating}
+                initialValue={rating}
+                fillColor="green"
+                size={30}
+
+              />
+            </div>
+            <div className="mb-4">
+              <h4>Edit your Review</h4>
+              <textarea
+                className="form-control"
+                rows="5"
+                placeholder="Write a review"
+                // value={reviewUpdate}
+                // onChange={(e) => setReviewUpdate(e.target.value)}
+                value={review}
+                onChange={(e) => setReview(e.target.value)}
+              />
+            </div>
+            <button
+              className="btn btn-success"
+              onClick={
+                () => {
+                  reviewUpdateHandler()
+                  // setToggleEdit((prev) => !prev)
+                  // window.location.reload()
+                  setVisible(false)
+
+
+                }
+              }
+            >
+              update Review
+            </button>
+          </div>
+        }
 
 
 
-
+        {/* display if not logged in  */}
         {
           !user &&
           <div className="col-md-6">
@@ -215,6 +290,9 @@ const PsychologistDetail = ({ id }) => {
           </div>
         }
 
+        {/* dont display if alresy rated  */}
+
+
         {/* display all reviews */}
         <div className="col-md-6">
           <h2>Reviews</h2>
@@ -225,6 +303,20 @@ const PsychologistDetail = ({ id }) => {
                   <div className="d-flex justify-content-between align-items-center">
                     <div>
                       <strong>{ele.userId.firstName}</strong> {new Date(ele.createdAt).toLocaleDateString()}
+                      {
+                        ele.userId._id == userId &&
+                        <button className='ms-4' onClick={() => {
+
+                          // setReviewUpdate(alreadyRated[0].review)
+                          setReview(alreadyRated[0].review)
+                          setRating(alreadyRated[0].rating)
+                          setToggleEdit((prev) => !prev)
+
+                        }
+
+                        }>edit</button>
+
+                      }
                     </div>
                     <div className="text-warning">
                       {[...Array(5)].map((_, i) => (
