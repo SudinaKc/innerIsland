@@ -9,12 +9,12 @@ const PsychologistListPage = () => {
         <div style={{ padding: "27px 0" }}
           className="container"
         >
-          <h1 className="text-white" style={{ fontWeight: "600", fontSize: "39px" }}>
+          <h1 className="text-white fw-medium px-1 px-md-0 px-lg-0" >
             Top Psychologists.
             <br />
             Talk to a Psychologist Online.
           </h1>
-          <p className="text-white fw-semibold">
+          <p className="text-white fw-semibold px-1 px-md-0 px-lg-0 ">
             Consult Top Psychologists. Verified and         <br />Certified
 
             Counselling and Clinical Psychologists.
@@ -23,7 +23,7 @@ const PsychologistListPage = () => {
           </p>
         </div>
       </div>
-      <div style={{backgroundColor:"rgb(251,251,253)"}}>
+      <div style={{ backgroundColor: "rgb(251,251,253)" }} className="mt-3 mt-md-0 mt-lg-0 mt-sm-0">
         <h1 className="text-center">Top Psychologist</h1>
 
 
@@ -32,7 +32,7 @@ const PsychologistListPage = () => {
 
 
 
-      <PsychologistList />
+        <PsychologistList />
       </div>
 
     </div>
