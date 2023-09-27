@@ -14,13 +14,13 @@ export const createRating = async (req, res) => {
         }
 
         // Check if the user has booked an appointment
-        // const userDetail = await Booked.findOne({ userId }); // Assuming Booked is a model with a findOne method
-        // if (!userDetail) {
-        //     return res.status(400).json({
-        //         success: false,
-        //         message: "User has not booked an appointment with the psychologist."
-        //     });
-        // }
+        const userDetail = await Booked.findOne({ userId });
+        if (!userDetail) {
+            return res.status(400).json({
+                success: false,
+                message: "User has not booked an appointment with the psychologist."
+            });
+        }
 
         // Create a new rating and review
         const ratingDetails = await Rating.create({
@@ -77,8 +77,8 @@ export const updateRating = async (req, res) => {
         const ratingDetails = await Rating.findByIdAndUpdate(id, {
             rating,
             review
-          }, { new: true });
-          
+        }, { new: true });
+
 
 
         res.status(200).json({

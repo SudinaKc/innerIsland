@@ -72,7 +72,7 @@ const PsychologistDetail = ({ id }) => {
 
   const alreadyRated = allratings.filter((ele) => {
     // setReviewUpdate(alreadyRated[0].review)
-    return ele.userId._id == userId && ele.psychologistId == id
+    return ele?.userId?._id == userId && ele?.psychologistId == id
   })
   console.log(alreadyRated[0])
   // *****************************************************************************************
@@ -210,7 +210,7 @@ const [visible,setVisible]=useState(true)
           alreadyRated &&
           toggleEdit &&
           user.user.userType !== "expert" &&
-          <div className="col-md-6 " style={visible ? {  } : {visibility: "hidden"}}>
+          <div className="col-md-6 " style={visible ? {  } : {visibility: "hidden"}} >
             <h2>Rate and Review</h2>
 
             <div className="mb-4">
@@ -241,7 +241,8 @@ const [visible,setVisible]=useState(true)
                   reviewUpdateHandler()
                   // setToggleEdit((prev) => !prev)
                   // window.location.reload()
-                  setVisible(false)
+                  // setVisible(false)
+                  setToggleEdit(false)
 
 
                 }
@@ -302,15 +303,16 @@ const [visible,setVisible]=useState(true)
                 <div className="card-body">
                   <div className="d-flex justify-content-between align-items-center">
                     <div>
-                      <strong>{ele.userId.firstName}</strong> {new Date(ele.createdAt).toLocaleDateString()}
+                      <strong>{ele?.userId?.firstName}</strong> {new Date(ele?.createdAt).toLocaleDateString()}
                       {
-                        ele.userId._id == userId &&
+                        ele?.userId?._id == userId &&
                         <button className='ms-4' onClick={() => {
 
                           // setReviewUpdate(alreadyRated[0].review)
                           setReview(alreadyRated[0].review)
                           setRating(alreadyRated[0].rating)
-                          setToggleEdit((prev) => !prev)
+                          // setToggleEdit((prev) => !prev)
+                          setToggleEdit(true)
 
                         }
 
