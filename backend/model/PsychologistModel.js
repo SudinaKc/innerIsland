@@ -54,7 +54,6 @@ const PsychologistSchema = new mongoose.Schema(
 
         token: {
             type: String,
-
         },
 
     },

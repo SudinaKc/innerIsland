@@ -100,14 +100,26 @@ const Header = () => {
                           Profile
                         </div>
                       </Link>
-
                     </Dropdown.Item>
+                    {
+                      user.user.admin &&
+                      <Dropdown.Item>
+                        <Link
+                          to={"/admin"}
+                          className="text-decoration-none"
+                        >
+                          <div className="text-black ">
+
+                            Admin Page
+                          </div>
+                        </Link>
+                      </Dropdown.Item>
+                    }
                     <Dropdown.Item >
                       <div onClick={onLogout} className="d-flex gap-2 align-items-center">
                         Logout
                         <IoIosLogOut className="text-success fw-bolder" />
                       </div>
-
                     </Dropdown.Item>
                   </Dropdown.Menu>
                 </Dropdown>
