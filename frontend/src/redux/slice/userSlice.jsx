@@ -44,8 +44,9 @@ export const registerUserAsync = createAsyncThunk(
 // login user
 export const loginUserAsync = createAsyncThunk(
   "loginUser",
-  async ({ email, password, userType }, thunkAPI) => {
+  async ({ email, password, userType, setLoading }, thunkAPI) => {
     let response = null;
+    setLoading(true)
     try {
       if (userType === "expert") {
         response = await axios.post(
@@ -70,8 +71,9 @@ export const loginUserAsync = createAsyncThunk(
           }
         );
       }
-
+      setLoading(false)
       return response.data;
+
     } catch (error) {
       const message = error.response.data;
       return thunkAPI.rejectWithValue(message);

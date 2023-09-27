@@ -38,7 +38,7 @@ const Register = ({
                             name="firstName"
                             value={firstName}
                             onChange={handleChange}
-                            required
+                            // required
                           />
                         </div>
                         <div className="col">
@@ -49,7 +49,7 @@ const Register = ({
                             name="lastName"
                             value={lastName}
                             onChange={handleChange}
-                            required
+                            // required
                           />
                         </div>
                       </div>
@@ -62,7 +62,7 @@ const Register = ({
                           name="email"
                           value={email}
                           onChange={handleChange}
-                          required
+                          // required
                         />
                       </div>
                       <div className="mb-3">
@@ -73,7 +73,7 @@ const Register = ({
                           name="phone"
                           value={phone}
                           onChange={handleChange}
-                          required
+                          // required
                         />
                       </div>
 
@@ -85,7 +85,7 @@ const Register = ({
                           name="age"
                           value={age}
                           onChange={handleChange}
-                          required
+                         // required
                         />
                       </div>
                       <div className="mb-3">
@@ -96,7 +96,7 @@ const Register = ({
                           name="address"
                           value={address}
                           onChange={handleChange}
-                          required
+                          // required
                         />
                       </div>
                       <div className="mb-3">
@@ -144,7 +144,7 @@ const Register = ({
                           name="password"
                           value={password}
                           onChange={handleChange}
-                          required
+                          // required
                         />
                       </div>
 

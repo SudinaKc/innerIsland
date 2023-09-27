@@ -16,6 +16,7 @@ const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [userType, setUserType] = useState("user");
+  const [loading,setLoading]=useState(false)
 
   useEffect(() => {
     if (isError) {
@@ -23,7 +24,7 @@ const LoginPage = () => {
       toast.error(message);
     }
     if (isSuccess) {
-      
+
       toast.success("Login success", {
         autoClose: 500, // Duration in milliseconds (2 seconds)
       });
@@ -36,7 +37,11 @@ const LoginPage = () => {
 
   const loginUser = async (e) => {
     e.preventDefault();
-    dispatch(loginUserAsync({ email, password, userType }));
+    if (!email || !password) {
+      toast.error("all fields are required ")
+      return new Error("All fields are required ")
+    }
+    dispatch(loginUserAsync({ email, password, userType ,setLoading}));
   };
 
   return (
@@ -49,6 +54,8 @@ const LoginPage = () => {
         loginUser={loginUser}
         userType={userType}
         setUserType={setUserType}
+        loading={loading}
+
       />
     </>
   );

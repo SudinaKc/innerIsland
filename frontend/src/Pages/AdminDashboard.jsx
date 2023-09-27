@@ -2,13 +2,14 @@ import axios from "axios";
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
+import AllUsers from "../components/AllUsers";
 import CreateEvent from "../components/events/CreateEvent";
 import GetAllEvents from "../components/events/GetAllEvents";
 
 const AdminDashboard = () => {
   // Define state variables for form fields
   // const [showClickedPage, setShowClickedPage] = useState(false)
-  const [currentTab, setCurrentTab] = useState("event")
+  const [currentTab, setCurrentTab] = useState("event");
   const [formData, setFormData] = useState({
     title: "",
     description: "",
@@ -17,20 +18,20 @@ const AdminDashboard = () => {
     time: "",
   });
   const { title, description, location, date, time } = formData;
-  const [reload, setReload] = useState(false)
+  const [reload, setReload] = useState(false);
   // Handle form input changes
   const handleOnChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false); // Add modal state
 
   // Handle form submission (you can add your submission logic here)
   const submitHandler = async (e) => {
-    setReload(false)
+    setReload(false);
     e.preventDefault();
-    setLoading(true)
+    setLoading(true);
     try {
       if (!title || !description || !location || !date || !time) {
         toast.error("all fields are required");
@@ -55,9 +56,9 @@ const AdminDashboard = () => {
         time: "",
       });
       toast.success("event created successfully");
-      setReload(true)
-      setLoading(false)
-      setShowModal(false)
+      setReload(true);
+      setLoading(false);
+      setShowModal(false);
     } catch (error) {
       console.log(error.message);
       setFormData({
@@ -81,38 +82,80 @@ const AdminDashboard = () => {
           <div className="position-sticky">
             <ul className="nav flex-column">
               <li className="nav-item">
-                <Link className="nav-link"
+                <Link
+                  className="nav-link"
                   onClick={() => setCurrentTab("event")}
                 >
-                  <span className={`${currentTab == "event" ? " bg-body-secondary px-4 py-2 rounded-3" : ""} text-success`} > Events Detail</span>
+                  <span
+                    className={`${
+                      currentTab == "event"
+                        ? " bg-body-secondary px-4 py-2 rounded-3"
+                        : ""
+                    } text-success`}
+                  >
+                    {" "}
+                    Events Detail
+                  </span>
                 </Link>
               </li>
               <li className="nav-item">
-                <Link to="/registered-users" className="nav-link">
-                  <span className="text-success ">Registered Users</span>
-                </Link>
-              </li>
-              <li className="nav-item">
-                <Link to="/registered-psychologists" className="nav-link">
-                  <span className="text-success">Registered Psychologists</span>
-                </Link>
-              </li>
-              <li className="nav-item">
-                <Link to="/booked-appointments" className="nav-link"
-
+                <Link
+                  className="nav-link"
+                  onClick={() => setCurrentTab("register")}
                 >
-                  <span className="text-success">Booked Appointments</span>
+                  <span
+                    className={`${
+                      currentTab == "register"
+                        ? " bg-body-secondary px-4 py-2 rounded-3"
+                        : ""
+                    } text-success`}
+                  >
+                    {" "}
+                    Users list
+                  </span>
                 </Link>
               </li>
-
+              {/* <li className="nav-item">
+                <Link
+                  className="nav-link"
+                  onClick={() => setCurrentTab("psycho")}
+                >
+                  <span
+                    className={`${
+                      currentTab == "psycho"
+                        ? " bg-body-secondary px-4 py-2 rounded-3"
+                        : ""
+                    } text-success`}
+                  >
+                    {" "}
+                    Psychologists list
+                  </span>
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link
+                  className="nav-link"
+                  onClick={() => setCurrentTab("book")}
+                >
+                  <span
+                    className={`${
+                      currentTab == "book"
+                        ? " bg-body-secondary px-4 py-2 rounded-3"
+                        : ""
+                    } text-success`}
+                  >
+                    {" "}
+                    Appointments list
+                  </span>
+                </Link>
+              </li> */}
             </ul>
           </div>
         </nav>
 
         <div className="col-md-9 ms-sm-auto col-lg-10 px-md-4">
           {/* event pages data */}
-          {
-            currentTab == "event" &&
+          {currentTab == "event" && (
             <div>
               <button
                 type="button"
@@ -131,25 +174,31 @@ const AdminDashboard = () => {
                 date={date}
                 time={time}
                 showModal={showModal}
-
-
               />
             </div>
-
-          }
-          {
-            currentTab == "event" &&
-
+          )}
+          {currentTab == "event" && (
             <div className="mt-5">
               <h2>All events</h2>
-              <GetAllEvents formData={formData} submitHandler={submitHandler}
+              <GetAllEvents
+                formData={formData}
+                submitHandler={submitHandler}
                 reload={reload}
                 loading={loading}
                 setLoading={setLoading}
               />
             </div>
-          }
+          )}
+          {currentTab == "register" && (
+            <div>
+              <AllUsers loading={loading} 
+              setLoading={setLoading}
+              />
 
+            </div>
+          )}
+          {/* {currentTab == "psycho" && <div>registered psychologists</div>}
+          {currentTab == "book" && <div>Booked Appointments</div>} */}
         </div>
       </div>
     </div>

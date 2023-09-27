@@ -1,5 +1,5 @@
 import express from "express";
-import { getUser, loginUser, registerUser } from "../controllers/userController.js";
+import { getAllUsers, getUser, loginUser, registerUser } from "../controllers/userController.js";
 // import authentication from "./../middleware/authentication.js";
 
 const router = express.Router();
@@ -11,6 +11,10 @@ router.post("/login", loginUser);
 router.get("/:id",getUser);
 
 /* UPDATE */
+
+// get all users
+router.get("/all/allusers", getAllUsers);
+
 
 export default router;
 

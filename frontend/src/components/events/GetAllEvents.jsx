@@ -138,8 +138,9 @@ const GetAllEvents = ({ submitHandler, formData, reload, setLoading, loading }) 
             }
             {
                 allevents.length == 0 &&
+                loading == false &&
                 <div>
-                    no event found , create  an event 
+                    no event found , create  an event
                 </div>
             }
 

@@ -54,10 +54,11 @@ export const registerUser = async (req, res) => {
       RegisterSuccessMail(firstName, lastName)
     );
 
-    res.status(200).json({ 
-      success:true,
-      message:"register successfull",
-      user });
+    res.status(200).json({
+      success: true,
+      message: "register successfull",
+      user
+    });
   } catch (e) {
     return res.status(400).json(e.message);
   }
@@ -97,6 +98,24 @@ export const getUser = async (req, res) => {
     res.status(404).json({ message: err.message });
   }
 };
+
+
+export const getAllUsers = async (req, res) => {
+  try {
+    const allUsers = await User.find().sort({ createdAt: -1 });
+    res.status(200).json({
+      success: true,
+      allUsers,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+
 
 // export const getUserFriends = async (req, res) => {
 //   try {
