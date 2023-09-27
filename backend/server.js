@@ -7,6 +7,7 @@ import { Server } from "socket.io";
 import connectDB from "./database/connectDB.js";
 import psychologistRoutes from "./routes/PsychologistRoutes.js";
 import bookedRoutes from './routes/bookedRoutes.js';
+import eventRoutes from "./routes/eventRoute.js";
 import paymentRoute from "./routes/paymentRoute.js";
 import ratingAndReview from "./routes/ratingAndReview.js";
 import sendEmailRoute from "./routes/sendEmailRoute.js";
@@ -23,15 +24,16 @@ app.use("/users", userRoutes); // Mount the userRouter at the root path ("/")
 app.use("/api", paymentRoute)
 app.use("/psychologist", psychologistRoutes)
 app.use("/api", bookedRoutes);
-app.use("/api",ratingAndReview)
+app.use("/api", ratingAndReview)
 app.use("/api", sendEmailRoute);
+app.use("/api", eventRoutes)
 // Create HTTP server
 const httpServer = createServer(app);
 
 // Create socket.io server
 const io = new Server(httpServer, {
   cors: {
-    origin:"http://localhost:5173", // frontend link
+    origin: "http://localhost:5173", // frontend link
     methods: ["GET", "POST"],
   },
 });
@@ -40,8 +42,6 @@ const io = new Server(httpServer, {
 // Express routes
 
 const port = process.env.PORT || 3000;
-
-
 
 
 // connectin to db

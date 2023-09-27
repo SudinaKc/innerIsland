@@ -5,6 +5,7 @@ import mailSender from "../utils/mailSender.js";
 // REGISTER
 export const registerUser = async (req, res) => {
   try {
+
     const {
       firstName,
       lastName,
@@ -15,7 +16,6 @@ export const registerUser = async (req, res) => {
       gender,
       address,
     } = req.body;
-
     if (
       !firstName ||
       !lastName ||
@@ -47,13 +47,17 @@ export const registerUser = async (req, res) => {
     });
 
     const token = await user.generateToken();
+
     await mailSender(
       email,
       "Welcome to InnerIsland - Registration Successful 🎉",
       RegisterSuccessMail(firstName, lastName)
     );
 
-    res.status(200).json({ user });
+    res.status(200).json({ 
+      success:true,
+      message:"register successfull",
+      user });
   } catch (e) {
     return res.status(400).json(e.message);
   }

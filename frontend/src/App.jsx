@@ -4,6 +4,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./App.css";
 import About from "./Pages/About";
+import AdminDashboard from "./Pages/AdminDashboard";
 import { AppointmentPage } from "./Pages/AppointmentPage";
 import AppointmentsDetailPage from "./Pages/AppointmentsDetailPage";
 import HomePage from "./Pages/HomePage";
@@ -27,14 +28,13 @@ const App = () => {
       <Header />
       <Routes>
         <Route path="/about" element={<About />} />
-
         <Route path="/" element={<HomePage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/experts" element={<PsychologistListPage />} />
-
+        <Route path="/admin" element={<AdminDashboard />} />
+        <Route path="/profile" element={<ProfilePage/>}/>
         <Route path="/appointments" element={<PrivateRoute user={user}><AppointmentPage /></PrivateRoute>} />
-
         {/* <Route element={<PrivateRoute user={user} />}>
           <Route path="/appointments" element={<AppointmentPage />} />
           
@@ -51,7 +51,7 @@ const App = () => {
           path="/expertDetail/:id"
           element={
             // <PrivateRoute user={user}>
-              <PsychologistDetailPage />
+            <PsychologistDetailPage />
             // </PrivateRoute>
           }
         />

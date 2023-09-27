@@ -8,8 +8,14 @@ router.post("/register", registerUser);
 router.post("/login", loginUser);
 
 /* READ */
-router.get("/:id", getUser);
+router.get("/:id",getUser);
 
 /* UPDATE */
 
 export default router;
+
+
+// create -- post
+// read -- get
+// update-- put , patch
+// delete-- delete

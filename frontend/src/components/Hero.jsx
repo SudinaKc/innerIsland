@@ -28,7 +28,10 @@ const Hero = () => {
               className="img rounded"
               alt=" Image"
             /> */}
-            <video  muted loop autoPlay  className="w-100">
+            <video muted loop autoPlay className="w-100 rounded-2"
+              // style={{boxShadow:"15px 15px 0px 0px rgba(20,152,92,0.65)"}}
+              style={{ boxShadow: "15px 15px 400px 1px rgba(20,152,92,0.32)" }}
+            >
               <source src={BannerVideo} type="video/mp4" />
               Your browser does not support the video tag.
             </video>

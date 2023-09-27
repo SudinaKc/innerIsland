@@ -47,12 +47,16 @@ const UserSchema = new mongoose.Schema(
       required: [true, "Password can't be blank"],
       trim: true,
     },
-    userType: {
+    userType: {   
       type: String,
       default: "user",
     },
     image: {
       type: String,
+    },
+    admin:{
+      type:Boolean,
+      default:false
     }
   },
 
