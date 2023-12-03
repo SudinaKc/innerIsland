@@ -1,7 +1,7 @@
 import axios from "axios"
 import { useEffect, useState } from "react"
 import { toast } from "react-toastify"
-import Spinner from "./spinner/spinner"
+import Spinner from "./spinner/Spinner"
 
 const AllUsers = ({ loading, setLoading }) => {
     const [allUserData, setAllUserData] = useState([])

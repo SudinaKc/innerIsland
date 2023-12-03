@@ -10,7 +10,8 @@ const VideoCall = () => {
         const element = document.querySelector("#meeting-container");
         const appID = 173409983;
         const serverSecret = "0c38febbfb35f1575fac29d6519afc89";
-        const kitToken = ZegoUIKitPrebuilt.generateKitTokenForTest(appID, serverSecret, joinKey, Date.now().toString(), userName);
+        console.log("username", userName)
+        const kitToken = ZegoUIKitPrebuilt.generateKitTokenForTest(appID, serverSecret, joinKey, Date.now().toString(),userName);
         const zp = ZegoUIKitPrebuilt.create(kitToken);
         zp.joinRoom({
             container: element,
@@ -25,7 +26,7 @@ const VideoCall = () => {
             sharedLinks: [
                 {
                     name: 'Personal link',
-                    url: `http://localhost:5173/room/${joinKey}`
+                    url: `https://innerisland.netlify.app/room/${joinKey}`
                 },
             ],
             scenario: {

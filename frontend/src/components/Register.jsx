@@ -2,7 +2,7 @@
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import { Logo } from "./LogoSvg";
-
+import Loader from "./spinner/Loader";
 const Register = ({
   firstName,
   lastName,
@@ -13,7 +13,8 @@ const Register = ({
   registerUser,
   age,
   address,
-  gender
+  gender,
+  loading
 }) => {
   return (
     <section className="h-100 gradient-form">
@@ -27,7 +28,13 @@ const Register = ({
                     <div className="text-center">
                       {Logo}
                     </div>
-                    <h3 className="mt-4 mb-3">Create an Account</h3>
+                    <div className="mt-3" style={{ height: "12px" }}>
+                      {
+                        loading &&
+                        <Loader />
+                      }
+                    </div>
+                    <h3 className="mt-1 mb-3">Create an Account</h3>
                     <form onSubmit={registerUser}>
                       <div className="row mb-3">
                         <div className="col">

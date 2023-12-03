@@ -127,7 +127,7 @@ const EditEvent = ({ id, title, description, location, date, time, updated, setU
                                     className="form-control"
                                 />
                             </label>
-                            <button type="submit" className="btn btn-primary" 
+                            <button type="submit" className="btn btn-success" 
                             //  data-bs-dismiss="modal"
                              data-bs-dismiss={`${showModal?"":"modal"}`}
 

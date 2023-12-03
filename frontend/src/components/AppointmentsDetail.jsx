@@ -18,7 +18,11 @@ const AppointmentsDetail = () => {
   const [clickedOnSavePres, setclickedOnSavePres] = useState(false);
   let joinKey = bookId;
   function redirectToCall() {
-    navigate(`/call/${joinKey}/${user.user.firstName} ${user.user.lastName}`);
+    // navigate(`/call/${joinKey}/${user.user.firstName} ${user.user.lastName}`);
+    const encodedFirstName = encodeURIComponent(user.user.firstName);
+    const encodedLastName = encodeURIComponent(user.user.lastName);
+    navigate(`/call/${joinKey}/${encodedFirstName} ${encodedLastName}`);
+
   }
   console.log("userid " + userId);
   const handleTextAreaChange = (event) => {
