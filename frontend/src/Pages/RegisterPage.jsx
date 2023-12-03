@@ -7,6 +7,7 @@ import { registerUserAsync, reset } from "../redux/slice/userSlice";
 const RegisterPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false)
   const { isSuccess, isError, message } = useSelector(
     (state) => state.user
   );
@@ -17,7 +18,7 @@ const RegisterPage = () => {
       toast.error(message);
     }
     if (isSuccess) {
-      navigate("/");
+      navigate("/login");
       toast.success("register success");
     }
     dispatch(reset());
@@ -33,8 +34,8 @@ const RegisterPage = () => {
     address: "",
     gender: "",
   });
-  
-  const { firstName, lastName, email, phone,password,age,address,gender } = registerData;
+
+  const { firstName, lastName, email, phone, password, age, address, gender } = registerData;
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -61,7 +62,7 @@ const RegisterPage = () => {
       );
     }
     // dispathc
-    dispatch(registerUserAsync({ firstName, lastName, email,phone, password,age,address,gender }));
+    dispatch(registerUserAsync({ firstName, lastName, email, phone, password, age, address, gender,setLoading }));
   };
 
   return (
@@ -77,6 +78,7 @@ const RegisterPage = () => {
         password={password}
         handleChange={handleChange}
         registerUser={registerUser}
+        loading={loading}
       />
     </>
   );

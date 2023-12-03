@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom";
-import AppointmentForm from "../components/AppointmentForm";
+// import AppointmentForm from "../components/AppointmentForm";
 import PsychologistDetail from "../components/PsychologistDetail";
 
 const PsychologistDetailPage = () => {
@@ -9,7 +9,7 @@ const PsychologistDetailPage = () => {
         <div>
 
             <PsychologistDetail id={id} />
-            <AppointmentForm />
+            {/* <AppointmentForm /> */}
         </div>
     )
 }

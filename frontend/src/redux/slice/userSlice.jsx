@@ -15,12 +15,13 @@ const initialState = {
 export const registerUserAsync = createAsyncThunk(
   "registerUser",
   async (
-    { firstName, lastName, email, phone, password, age, address, gender },
+    { firstName, lastName, email, phone, password, age, address, gender, setLoading },
     thunkAPI
   ) => {
+    setLoading(true)
     try {
       const response = await axios.post(
-        "http://localhost:3000/users/register",
+        `${import.meta.env.VITE_BACKEND_URL}/users/register`,
         {
           firstName,
           lastName,
@@ -33,6 +34,8 @@ export const registerUserAsync = createAsyncThunk(
         }
       );
       console.log(response.data);
+      setLoading(false)
+
       return response.data;
     } catch (error) {
       const message = error.response.data;
@@ -44,12 +47,13 @@ export const registerUserAsync = createAsyncThunk(
 // login user
 export const loginUserAsync = createAsyncThunk(
   "loginUser",
-  async ({ email, password, userType }, thunkAPI) => {
+  async ({ email, password, userType, setLoading }, thunkAPI) => {
     let response = null;
+    setLoading(true)
     try {
       if (userType === "expert") {
         response = await axios.post(
-          "http://localhost:3000/psychologist/login",
+          `${import.meta.env.VITE_BACKEND_URL}/psychologist/login`,
           {
             email,
             password,
@@ -60,7 +64,7 @@ export const loginUserAsync = createAsyncThunk(
         );
       } else {
         response = await axios.post(
-          "http://localhost:3000/users/login",
+          `${import.meta.env.VITE_BACKEND_URL}/users/login`,
           {
             email,
             password,
@@ -70,8 +74,9 @@ export const loginUserAsync = createAsyncThunk(
           }
         );
       }
-
+      setLoading(false)
       return response.data;
+
     } catch (error) {
       const message = error.response.data;
       return thunkAPI.rejectWithValue(message);

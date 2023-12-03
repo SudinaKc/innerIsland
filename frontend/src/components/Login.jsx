@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";
 import { Logo } from "./LogoSvg";
 import "./login.css";
+import Loader from "./spinner/Loader";
 const Login = ({
   loginUser,
   email,
@@ -11,6 +12,7 @@ const Login = ({
   setPassword,
   userType,
   setUserType,
+  loading
 }) => {
   return (
     <section className="h-100 gradient-form ">
@@ -22,10 +24,16 @@ const Login = ({
                 <div className="col-lg-6 ">
                   <div className="card-body p-md-5 mx-md-4">
                     <div className="text-center">
-                     
+
                       <h4 className="mt-1 mb-5 pb-1">{
                         Logo
                       }</h4>
+                    </div>
+                    <div className="" style={{ height: "12px" }}>
+                      {
+                        loading &&
+                        <Loader />
+                      }
                     </div>
 
                     <form onSubmit={loginUser}>
@@ -103,15 +111,17 @@ const Login = ({
                       <br />
 
                       <div className="text-center pt-1 mb-5 pb-1">
+
                         <button
                           className="btn btn-success btn-rounded button w-100 mb-4  "
                           type="submit"
                         >
                           Log in
                         </button>
-                        <a className="text-muted" href="#!">
+                        {/* <a className="text-muted" href="#!">
                           Forgot password?
-                        </a>
+                        </a> */}
+
                       </div>
 
                       <div className="d-flex align-items-center justify-content-center pb-4">
@@ -119,7 +129,7 @@ const Login = ({
                         <Link to={"/register"}>
                           <button
                             type="button"
-                            className="btn btn-outline-danger"
+                            className="btn btn-outline-success"
                           >
                             Create new
                           </button>

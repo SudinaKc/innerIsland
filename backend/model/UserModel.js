@@ -21,7 +21,6 @@ const UserSchema = new mongoose.Schema(
       unique: true,
       trim: true,
       required: [true, "Email can't be blank"],
-      index: true,
       validate: [isEmail, "invalid email"],
     },
     phone: {
@@ -48,19 +47,17 @@ const UserSchema = new mongoose.Schema(
       required: [true, "Password can't be blank"],
       trim: true,
     },
-    userType: {
+    userType: {   
       type: String,
       default: "user",
     },
-
-    isAdmin: {
-      type: Boolean,
-      required: true,
-      default: false,
-    },
-    token: {
+    image: {
       type: String,
     },
+    admin:{
+      type:Boolean,
+      default:false
+    }
   },
 
   { minimize: false, timestamps: true }
@@ -101,12 +98,12 @@ UserSchema.methods.generateToken = async function () {
 UserSchema.statics.findByCredentials = async function (email, password) {
   const user = await User.findOne({ email });
   if (!user) {
-    throw new Error("unable to login");
+    throw new Error("user not found , please register");
   }
   const isMatch = await bcrypt.compare(password, user.password);
 
   if (!isMatch) {
-    throw new Error("Unable to login");
+    throw new Error("password not matched ");
   }
   console.log("welcome");
 

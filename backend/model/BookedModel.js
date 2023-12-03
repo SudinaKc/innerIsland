@@ -10,27 +10,23 @@ const BookedSchema = new mongoose.Schema(
     psychologistId: {
       type: Schema.Types.ObjectId,
       ref: "Psychologist",
-
       required: [true, "Psychologist ID can't be blank"],
+    },
+    payment_id: {
+      type: Schema.Types.ObjectId,
+      ref: "Payment",
     },
     appointmentDate: {
       type: Date,
-      // type: String,
       required: [true, "Appointment date can't be blank"],
     },
     appointmentTime: {
       type: String,
       required: [true, "Appointment time can't be blank"],
     },
-    // move this to userModel
-    // address: {
-    //     // user address
-    //     type: String
-    // },
-    // age: {
-    //     // user age
-    //     type: String
-    // },
+    duration: {
+      type: Number
+    },
     problem: {
       type: String
     },
@@ -46,10 +42,15 @@ const BookedSchema = new mongoose.Schema(
       type: String,
       default: null,
     },
+    prescription: {
+      type: String
+    }
   },
   { minimize: false, timestamps: true }
 );
 
 const Booked = mongoose.model("Booked", BookedSchema);
+
+
 
 export default Booked;

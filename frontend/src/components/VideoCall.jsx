@@ -1,13 +1,17 @@
 import { ZegoUIKitPrebuilt } from '@zegocloud/zego-uikit-prebuilt';
+import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
-const VideoCall = () => {
-    const { joinKey } = useParams();
-    const { userName } = useParams();
 
-    const myMeeting = async (element) => {
-        const appID = 1595951050;
-        const serverSecret = "f0c6d49c3107597cf61dd8fa0eb23ec2";
-        const kitToken = ZegoUIKitPrebuilt.generateKitTokenForTest(appID, serverSecret, joinKey, Date.now().toString(), userName);
+const VideoCall = () => {
+    const { joinKey, userName } = useParams();
+
+    useEffect(() => {
+        // Initialize ZegoUIKit here
+        const element = document.querySelector("#meeting-container");
+        const appID = 173409983;
+        const serverSecret = "0c38febbfb35f1575fac29d6519afc89";
+        console.log("username", userName)
+        const kitToken = ZegoUIKitPrebuilt.generateKitTokenForTest(appID, serverSecret, joinKey, Date.now().toString(),userName);
         const zp = ZegoUIKitPrebuilt.create(kitToken);
         zp.joinRoom({
             container: element,
@@ -22,25 +26,28 @@ const VideoCall = () => {
             sharedLinks: [
                 {
                     name: 'Personal link',
-                    url: `http://localhost:5173/room/${joinKey}`
+                    url: `https://innerisland.netlify.app/room/${joinKey}`
                 },
             ],
-
             scenario: {
-                mode: ZegoUIKitPrebuilt.OneONoneCall, // To implement 1-on-1 calls, modify the parameter here to [ZegoUIKitPrebuilt.OneONoneCall].
+                mode: ZegoUIKitPrebuilt.OneONoneCall,
             },
             showScreenSharingButton: false,
             turnOnCameraWhenJoining: false,
-
         });
 
-    }
+        // Clean up any resources (e.g., disconnect) when the component unmounts
+        return () => {
+            // Clean up ZegoUIKit or any other resources if needed
+            window.location.reload()
+        };
+    }, [joinKey, userName]);
+
     return (
         <div>
-            <div ref={myMeeting} style={{height:"600px"}} />
+            <div id="meeting-container" style={{ height: "600px" }} />
         </div>
-        
-    )
-}
+    );
+};
 
-export default VideoCall
+export default VideoCall;

@@ -1,47 +1,91 @@
+import { useSelector } from "react-redux";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./App.css";
+import About from "./Pages/About";
+import AdminDashboard from "./Pages/AdminDashboard";
 import { AppointmentPage } from "./Pages/AppointmentPage";
 import AppointmentsDetailPage from "./Pages/AppointmentsDetailPage";
-import Dashboard from './Pages/Dashboard';
 import HomePage from "./Pages/HomePage";
 import LoginPage from "./Pages/LoginPage";
-import NewsFeedPage from './Pages/NewsFeedPage';
-import PsychologistDetailPage from "./Pages/PsychologistDetailPage.jsx";
+import ProfilePage from "./Pages/ProfilePage";
+import PsychologistDetailPage from "./Pages/PsychologistDetailPage";
 import PsychologistListPage from "./Pages/PsychologistListPage";
 import RegisterPage from "./Pages/RegisterPage";
 import VideoCallPage from "./Pages/VideoCallPage";
 import Footer from "./components/Footer";
 import Header from "./components/Header";
-// import { AppContext } from "./context/AppContext";
+import PaymentSuccess from "./components/PaymentSuccess";
+import PrivateRoute from "./private/PrivateRoute";
+
 const App = () => {
-  // const {fetchPsychologists}=useContext(AppContext);
-  // useEffect(()=>{
-  //     fetchPsychologists;
-  // },[])
-  
+  const { user } = useSelector((state) => state.user);
+
+  // Check if the current pathname is "/about"
   return (
-      <BrowserRouter>
-        <Header />
-        <Routes>
-          <Route path="/" Component={HomePage} />
-          <Route path="/login" Component={LoginPage} />
-          <Route path="/register" Component={RegisterPage} />
-          <Route path="/dashboard" Component={Dashboard} />
-          <Route path="/support" Component={NewsFeedPage} />
-          <Route path="/experts" Component={PsychologistListPage} />
-          <Route path="/appointments" Component={AppointmentPage} />
-          <Route path="/appointments/:userId/:bookId/:psychologistId" Component={AppointmentsDetailPage} />
-          <Route path="/expertDetail/:id" Component={PsychologistDetailPage} />
-          <Route path="/call/:joinKey/:userName" Component={VideoCallPage} />
+    <BrowserRouter>
+      <Header />
+      <Routes>
+        <Route path="/about" element={<About />} />
+        <Route path="/" element={<HomePage />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/register" element={<RegisterPage />} />
+        <Route path="/experts" element={<PsychologistListPage />} />
+        <Route path="/admin" element={<AdminDashboard />} />
+        <Route path="/profile" element={<ProfilePage/>}/>
+        <Route path="/appointments" element={<PrivateRoute user={user}><AppointmentPage /></PrivateRoute>} />
+        {/* <Route element={<PrivateRoute user={user} />}>
+          <Route path="/appointments" element={<AppointmentPage />} />
+          
+        </Route> */}
+        <Route
+          path="/appointments/:userId/:bookId/:psychologistId"
+          element={
+            <PrivateRoute user={user}>
+              <AppointmentsDetailPage />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/expertDetail/:id"
+          element={
+            // <PrivateRoute user={user}>
+            <PsychologistDetailPage />
+            // </PrivateRoute>
+          }
+        />
+        <Route
+          path="/call/:joinKey/:userName"
+          element={
+            <PrivateRoute user={user}>
+              <VideoCallPage />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/paymentsuccess"
+          element={
+            <PrivateRoute user={user}>
+              <PaymentSuccess />
+            </PrivateRoute>
+          }
+        />
+        <Route path="/profile" element={
+          <PrivateRoute user={user}>
+            <ProfilePage />
+          </PrivateRoute>
+        } />
+      </Routes>
+      {
 
-
-        </Routes>
-        <Footer />
-        <ToastContainer />
-      </BrowserRouter>
+      }
+      <Footer />
+      <ToastContainer />
+    </BrowserRouter>
   );
 };
 
 export default App;
+
+
