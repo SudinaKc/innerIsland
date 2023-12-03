@@ -13,6 +13,15 @@ const PsychologistSchema = new mongoose.Schema(
             required: [true, "lastName can't be blank"],
             trim: true,
         },
+        // schedule working
+        startTime: {
+            type: String,
+            default: "08:00"
+        },
+        endTime: {
+            type: String,
+            default: "18:00"
+        },
         image: {
             type: String,
             default: null

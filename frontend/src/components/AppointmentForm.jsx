@@ -3,13 +3,16 @@ import { useState } from "react";
 import { useSelector } from "react-redux";
 import { Link, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
-const AppointmentForm = ({ price }) => {
+const AppointmentForm = ({ price,psychologistDetail }) => {
   const { user } = useSelector((state) => state.user);
   const userId = user.user._id;
   const { id } = useParams();
   const [unavailable, setUnavailable] = useState([])
   const psychologistId = id;
   price = parseInt(price)
+// console.log()
+
+
   const [appointmentData, setAppointmentData] = useState({
     appointmentDate: "",
     appointmentTime: "",
@@ -84,12 +87,12 @@ const AppointmentForm = ({ price }) => {
       // amount: 100, // Replace with the payment amount
       appointmentDate: new Date(data.appointmentDate).toLocaleDateString(),
       appointmentTime: data.appointmentTime, // Replace with the appointment time
-      duration: data.duration +"hour",
-      problem:data.problem,
+      duration: data.duration + "hour",
+      problem: data.problem,
       razorpay_payment_id: data.payment_id.razorpay_payment_id,
       psychologistEmail: data.psychologistId.email,
       patientName: user.user.firstName + " " + user.user.lastName,
-      bookedId:bookedId
+      bookedId: bookedId
       // problem: "Appointment issue", // Replace with the appointment problem/description
     };
 
@@ -124,10 +127,10 @@ const AppointmentForm = ({ price }) => {
   }
   // checkout for checkout
   const checkoutHandler = async (amount, appointmentData) => {
-    // const { appointmentDate, appointmentTime, duration, problem } = appointmentData
-    // if (!appointmentDate || !appointmentTime || !duration || !problem) {
-    //   return toast.error("All fields are required ")
-    // }
+    const { appointmentDate, appointmentTime, duration, problem } = appointmentData
+    if (!appointmentDate || !appointmentTime || !duration || !problem) {
+      return toast.error("All fields are required ")
+    }
     // console.log(appointmentDate)
     // if (new Date(appointmentDate) <= Date.now()) {
     //   return toast.error("You can't book in the past");
@@ -270,6 +273,7 @@ const AppointmentForm = ({ price }) => {
             <input
               id="appointmentDate"
               className="form-control"
+              required
               type="date"
               min={new Date().toISOString().split('T')[0]}
               onChange={(e) => {
@@ -278,7 +282,6 @@ const AppointmentForm = ({ price }) => {
               }}
               name="appointmentDate"
               value={appointmentDate}
-              required
             />
 
           </div>
@@ -307,18 +310,43 @@ const AppointmentForm = ({ price }) => {
             <label htmlFor="appointmentTime" className="form-label">
               Appointment Time:
               <sup style={{ color: "green", fontSize: "12px" }}>*</sup>
+              <span>(between {psychologistDetail.startTime} to {psychologistDetail.endTime})</span>
 
             </label>
             {/* time picker */}
+
+
             <input
               id="appointmentTime"
               className="form-control"
               type="time"
-              onChange={changeHandler}
+              // onChange={changeHandler}
               name="appointmentTime"
               required
               value={appointmentTime}
+              onChange={(e) => {
+                const inputTime = e.target.value;
+                console.log(typeof inputTime)
+                const selectedTime = new Date(`1970-01-01T${inputTime}`);
+                const minTime = new Date(`1970-01-01T${psychologistDetail.startTime}`);
+                const maxTime = new Date(`1970-01-01T${psychologistDetail.endTime}`);
+
+                if (selectedTime < minTime || selectedTime > maxTime) {
+                  alert(`Please select a time between ${psychologistDetail.startTime} and ${psychologistDetail.endTime}.`);
+                } else {
+                  // setSelectedTime(inputTime); // Update the state with the selected time
+                  changeHandler(e);
+                }
+              }}
+
+
+
+
+
+
             />
+
+
             <div style={{ width: "700px" }}>
             </div>
           </div>
@@ -334,6 +362,8 @@ const AppointmentForm = ({ price }) => {
               onChange={changeHandler}
               name="duration"
               value={duration}
+              min={1}
+              max={3}
               required
             />
           </div>
@@ -354,6 +384,16 @@ const AppointmentForm = ({ price }) => {
             value={problem}
             required
           />
+        </div>
+        <div className="text-success">
+          Total:NPR 
+          <span className="fw-semibold">
+            {" "}
+
+          {
+            price * duration
+          }
+          </span>
         </div>
         <div className="text-center">
           {booked && (

@@ -34,6 +34,8 @@ export const registerUser = async (req, res) => {
       return res.status(409).json("user already exists");
     }
 
+
+    //  INSERT INTO DB ************************************************************************************
     const user = await User.create({
       firstName,
       lastName,
@@ -48,6 +50,7 @@ export const registerUser = async (req, res) => {
 
     const token = await user.generateToken();
 
+    // SEND SUCCESS REGISTER MAIL****************************************************
     await mailSender(
       email,
       "Welcome to InnerIsland - Registration Successful 🎉",

@@ -78,7 +78,7 @@ const CreateEvent = ({submitHandler,title,handleOnChange,description,location,da
                           className="form-control"
                         />
                       </label>
-                      <button type="submit" className="btn btn-primary"
+                      <button type="submit" className="btn btn-success"
                       
                       
                       data-bs-dismiss={`${showModal?"":"modal"}`}

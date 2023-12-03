@@ -11,7 +11,7 @@ export const createOrder = async (req, res) => {
   try {
     const options = {
       amount: Number(req.body.amount * 100),
-      currency: "INR",
+      currency: "NPR",
     };
     const order = await instance.orders.create(options);
     res.status(200).json({

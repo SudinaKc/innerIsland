@@ -1,5 +1,6 @@
 import axios from "axios";
 import React, { useState } from "react";
+import { useSelector } from 'react-redux';
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import AllUsers from "../components/AllUsers";
@@ -7,6 +8,9 @@ import CreateEvent from "../components/events/CreateEvent";
 import GetAllEvents from "../components/events/GetAllEvents";
 
 const AdminDashboard = () => {
+  const { user } = useSelector(
+    (state) => state.user
+  );
   // Define state variables for form fields
   // const [showClickedPage, setShowClickedPage] = useState(false)
   const [currentTab, setCurrentTab] = useState("event");
@@ -72,137 +76,114 @@ const AdminDashboard = () => {
   };
 
   return (
-    <div className="container-fluid">
-      <div className="row">
-        <nav
-          id="sidebar"
-          className="col-md-3 col-lg-2 d-md-block bg-light sidebar pt-4"
-          style={{ height: "95vh" }}
-        >
-          <div className="position-sticky">
-            <ul className="nav flex-column">
-              <li className="nav-item">
-                <Link
-                  className="nav-link"
-                  onClick={() => setCurrentTab("event")}
-                >
-                  <span
-                    className={`${
-                      currentTab == "event"
-                        ? " bg-body-secondary px-4 py-2 rounded-3"
-                        : ""
-                    } text-success`}
-                  >
-                    {" "}
-                    Events Detail
-                  </span>
-                </Link>
-              </li>
-              <li className="nav-item">
-                <Link
-                  className="nav-link"
-                  onClick={() => setCurrentTab("register")}
-                >
-                  <span
-                    className={`${
-                      currentTab == "register"
-                        ? " bg-body-secondary px-4 py-2 rounded-3"
-                        : ""
-                    } text-success`}
-                  >
-                    {" "}
-                    Users list
-                  </span>
-                </Link>
-              </li>
-              {/* <li className="nav-item">
-                <Link
-                  className="nav-link"
-                  onClick={() => setCurrentTab("psycho")}
-                >
-                  <span
-                    className={`${
-                      currentTab == "psycho"
-                        ? " bg-body-secondary px-4 py-2 rounded-3"
-                        : ""
-                    } text-success`}
-                  >
-                    {" "}
-                    Psychologists list
-                  </span>
-                </Link>
-              </li>
-              <li className="nav-item">
-                <Link
-                  className="nav-link"
-                  onClick={() => setCurrentTab("book")}
-                >
-                  <span
-                    className={`${
-                      currentTab == "book"
-                        ? " bg-body-secondary px-4 py-2 rounded-3"
-                        : ""
-                    } text-success`}
-                  >
-                    {" "}
-                    Appointments list
-                  </span>
-                </Link>
-              </li> */}
-            </ul>
-          </div>
-        </nav>
-
-        <div className="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-          {/* event pages data */}
-          {currentTab == "event" && (
-            <div>
-              <button
-                type="button"
-                className="btn btn-success mt-3"
-                data-bs-toggle="modal"
-                data-bs-target="#exampleModal"
+    <>
+      {
+        user.user.admin ? (
+          <div className="container-fluid">
+            <div className="row">
+              <nav
+                id="sidebar"
+                className="col-md-3 col-lg-2 d-md-block bg-light sidebar pt-4"
+                style={{ height: "95vh" }}
               >
-                create event
-              </button>
-              <CreateEvent
-                submitHandler={submitHandler}
-                title={title}
-                handleOnChange={handleOnChange}
-                description={description}
-                location={location}
-                date={date}
-                time={time}
-                showModal={showModal}
-              />
-            </div>
-          )}
-          {currentTab == "event" && (
-            <div className="mt-5">
-              <h2>All events</h2>
-              <GetAllEvents
-                formData={formData}
-                submitHandler={submitHandler}
-                reload={reload}
-                loading={loading}
-                setLoading={setLoading}
-              />
-            </div>
-          )}
-          {currentTab == "register" && (
-            <div>
-              <AllUsers loading={loading} 
-              setLoading={setLoading}
-              />
+                <div className="position-sticky">
+                  <ul className="nav flex-column">
+                    <li className="nav-item">
+                      <Link
+                        className="nav-link"
+                        onClick={() => setCurrentTab("event")}
+                      >
+                        <span
+                          className={`${currentTab == "event"
+                            ? " bg-body-secondary px-4 py-2 rounded-3"
+                            : ""
+                            } text-success`}
+                        >
+                          {" "}
+                          Events Detail
+                        </span>
+                      </Link>
+                    </li>
+                    <li className="nav-item">
+                      <Link
+                        className="nav-link"
+                        onClick={() => setCurrentTab("register")}
+                      >
+                        <span
+                          className={`${currentTab == "register"
+                            ? " bg-body-secondary px-4 py-2 rounded-3"
+                            : ""
+                            } text-success`}
+                        >
+                          {" "}
+                          Users list
+                        </span>
+                      </Link>
+                    </li>
 
+                  </ul>
+                </div>
+              </nav>
+
+              <div className="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+                {currentTab == "event" && (
+                  <div>
+                    <button
+                      type="button"
+                      className="btn btn-success mt-3"
+                      data-bs-toggle="modal"
+                      data-bs-target="#exampleModal"
+                    >
+                      create event
+                    </button>
+                    <CreateEvent
+                      submitHandler={submitHandler}
+                      title={title}
+                      handleOnChange={handleOnChange}
+                      description={description}
+                      location={location}
+                      date={date}
+                      time={time}
+                      showModal={showModal}
+                    />
+                  </div>
+                )}
+                {currentTab == "event" && (
+                  <div className="mt-5">
+                    <h2>All events</h2>
+                    <GetAllEvents
+                      formData={formData}
+                      submitHandler={submitHandler}
+                      reload={reload}
+                      loading={loading}
+                      setLoading={setLoading}
+                    />
+                  </div>
+                )}
+                {currentTab == "register" && (
+                  <div>
+                    <AllUsers loading={loading}
+                      setLoading={setLoading}
+                    />
+
+                  </div>
+                )}
+
+              </div>
             </div>
-          )}
-          {/* {currentTab == "psycho" && <div>registered psychologists</div>}
-          {currentTab == "book" && <div>Booked Appointments</div>} */}
-        </div>
-      </div>
-    </div>
-  );
+          </div>
+        ) : (<div style={{ height: "100vh" }}>
+          <h1>
+            Not Authorized
+
+          </h1>
+         
+        </div>)
+
+      }
+
+    </>
+  )
 };
 
 export default AdminDashboard;

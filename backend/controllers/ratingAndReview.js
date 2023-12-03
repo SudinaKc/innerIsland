@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import Booked from "../model/BookedModel.js";
 import Rating from "../model/RatingAndReview.js";
 // Create rating and review
 export const createRating = async (req, res) => {
@@ -12,7 +13,14 @@ export const createRating = async (req, res) => {
                 message: "Both userId and psychologistId are required."
             });
         }
-
+        // check if already rated 
+        const alreadyRated = await Rating.findOne({ userId })
+        if (alreadyRated) {
+            return res.status(400).json({
+                success: false,
+                message: "Already rated"
+            });
+        }
         // Check if the user has booked an appointment
         const userDetail = await Booked.findOne({ userId });
         if (!userDetail) {

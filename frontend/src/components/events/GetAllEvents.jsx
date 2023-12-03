@@ -1,7 +1,7 @@
 import axios from "axios"
 import { useEffect, useState } from "react"
 import { toast } from "react-toastify"
-import Spinner from "../spinner/spinner"
+import Spinner from "../spinner/Spinner"
 import EditEvent from "./EditEvent"
 
 const GetAllEvents = ({ submitHandler, formData, reload, setLoading, loading }) => {

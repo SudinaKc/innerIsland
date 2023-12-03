@@ -36,6 +36,7 @@ const PsychologistDetail = ({ id }) => {
         psychologistId: id,
         userId,
       });
+      
       console.log('Rating/review saved to db');
       console.log(response);
 
@@ -46,7 +47,8 @@ const PsychologistDetail = ({ id }) => {
       // Fetch updated reviews
       await fetchReview(id);
     } catch (error) {
-      console.log(error);
+      console.log(error.response.data.message);
+      toast.error(error.response.data.message)
     }
   }
 
@@ -142,7 +144,9 @@ const [visible,setVisible]=useState(true)
           <h2>Book an Appointment</h2>
           {
             user &&
-            <AppointmentForm id={id} price={psychologistDetail.price} />
+            <AppointmentForm id={id} price={psychologistDetail.price} 
+            psychologistDetail={psychologistDetail}
+            />
 
           }
         </div>
@@ -170,10 +174,12 @@ const [visible,setVisible]=useState(true)
 
       <hr className="my-4" />
 
+{/* give review  */}
       <div className="row">
         {
           user &&
-          !alreadyRated &&
+          !toggleEdit&&
+          // !alreadyRated &&
           user.user.userType !== "expert" &&
           <div className="col-md-6">
             <h2>Rate and Review</h2>

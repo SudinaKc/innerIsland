@@ -1,8 +1,6 @@
 
-export const RegisterSuccessMail = ({firstName,lastName}) => {
-    return
-
-    `<html>
+export const RegisterSuccessMail = (firstName,lastName) => {
+    return`<html>
         <head>
             <!-- Add Bootstrap CSS link here -->
             <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
@@ -33,7 +31,6 @@ export const RegisterSuccessMail = ({firstName,lastName}) => {
                         <p>Thank you for choosing InnerIsland as your mental health companion. We look forward to being a part of your journey towards a happier, healthier you.</p>
                         <p>Warm regards,</p>
                         <p>The InnerIsland Team</p>
-                        <p><strong>Website:</strong> <a href="https://www.innerisland.com">InnerIsland</a></p>
                         <p><strong>Contact Email:</strong> <a href="mailto:support@innerisland.com">support@innerisland.com</a></p>
                     </div>
                 </div>

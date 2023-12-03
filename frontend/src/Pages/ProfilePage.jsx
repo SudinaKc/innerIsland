@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import PatientProfile from "../components/PatientProfile";
 import PsychologistProfile from "../components/PsychologistProfile";
-import Spinner from "../components/spinner/spinner";
+import Spinner from "../components/spinner/Spinner";
 const ProfilePage = () => {
 
     const { user } = useSelector((state) => state.user);

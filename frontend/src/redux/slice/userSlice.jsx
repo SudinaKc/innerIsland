@@ -15,9 +15,10 @@ const initialState = {
 export const registerUserAsync = createAsyncThunk(
   "registerUser",
   async (
-    { firstName, lastName, email, phone, password, age, address, gender },
+    { firstName, lastName, email, phone, password, age, address, gender, setLoading },
     thunkAPI
   ) => {
+    setLoading(true)
     try {
       const response = await axios.post(
         `${import.meta.env.VITE_BACKEND_URL}/users/register`,
@@ -33,6 +34,8 @@ export const registerUserAsync = createAsyncThunk(
         }
       );
       console.log(response.data);
+      setLoading(false)
+
       return response.data;
     } catch (error) {
       const message = error.response.data;
