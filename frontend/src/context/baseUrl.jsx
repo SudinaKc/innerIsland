@@ -1,1 +1,1 @@
-export const baseUrl="http://localhost:3000/psychologist/all";
+export const baseUrl=`${import.meta.env.VITE_BACKEND_URL}/psychologist/all`;

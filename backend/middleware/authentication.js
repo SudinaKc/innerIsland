@@ -1,15 +1,18 @@
+import dotenv from "dotenv";
 import jwt from "jsonwebtoken";
+dotenv.config()
+
 const authentication = (req, res, next) => {
   const token = req.cookies.token;
   if (!token)
     return res.status(401).send("Access denied...No token provided...");
   try {
-    const decoded = jwt.verify(token, "innerIsland");
+    const decoded = jwt.verify(token, process.env.JWT_TOKEN);
     req.user = decoded;
 
     const options = {
       expires: new Date(Date.now() + 5 * 60 * 1000),
-     httpOnly: true,
+      httpOnly: true,
     };
     res.cookie("token", token, options);
     console.log(decoded);

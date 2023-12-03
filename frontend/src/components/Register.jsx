@@ -1,6 +1,8 @@
+
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
-
+import { Logo } from "./LogoSvg";
+import Loader from "./spinner/Loader";
 const Register = ({
   firstName,
   lastName,
@@ -9,112 +11,169 @@ const Register = ({
   password,
   handleChange,
   registerUser,
+  age,
+  address,
+  gender,
+  loading
 }) => {
   return (
     <section className="h-100 gradient-form">
-      <div className="container py-5 h-100  ">
-        <div className="row d-flex justify-content-center align-items-center h-100 ">
+      <div className="container py-2 h-100">
+        <div className="row d-flex justify-content-center align-items-center h-100">
           <div className="col-xl-10">
             <div className="card rounded-3 text-black">
               <div className="row g-0">
-                <div className="col-lg-6 ">
+                <div className="col-lg-6 bg-white">
                   <div className="card-body p-md-5 mx-md-4">
                     <div className="text-center">
-                      {/* <img
-                        src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/lotus.webp"
-                        style={{ width: "185px" }}
-                        alt="logo"
-                      /> */}
-                      {/* <h4 className="mt-1 mb-5 pb-1">We are The Lotus Team</h4> */}
                       {Logo}
                     </div>
-                    <br />
-                    <br />
-                    <form method="POST" onSubmit={registerUser}>
-                      <p>Please register account</p>
-                      <div className="form-outline mb-4">
-                        <input
-                          type="text"
-                          className="form-control"
-                          placeholder=" First Name"
-                          name="firstName"
-                          value={firstName}
-                          onChange={handleChange}
-                        />
+                    <div className="mt-3" style={{ height: "12px" }}>
+                      {
+                        loading &&
+                        <Loader />
+                      }
+                    </div>
+                    <h3 className="mt-1 mb-3">Create an Account</h3>
+                    <form onSubmit={registerUser}>
+                      <div className="row mb-3">
+                        <div className="col">
+                          <input
+                            type="text"
+                            className="form-control"
+                            placeholder="First Name"
+                            name="firstName"
+                            value={firstName}
+                            onChange={handleChange}
+                            // required
+                          />
+                        </div>
+                        <div className="col">
+                          <input
+                            type="text"
+                            className="form-control"
+                            placeholder="Last Name"
+                            name="lastName"
+                            value={lastName}
+                            onChange={handleChange}
+                            // required
+                          />
+                        </div>
                       </div>
-                      <div className="form-outline mb-4">
-                        <input
-                          type="text"
-                          className="form-control"
-                          placeholder=" Last Name"
-                          name="lastName"
-                          value={lastName}
-                          onChange={handleChange}
-                        />
-                      </div>
-                      <div className="form-outline mb-4">
+
+                      <div className="mb-3">
                         <input
                           type="email"
                           className="form-control"
-                          placeholder=" email address"
+                          placeholder="Email Address"
                           name="email"
                           value={email}
                           onChange={handleChange}
+                          // required
                         />
                       </div>
-                      <div className="form-outline mb-4">
+                      <div className="mb-3">
                         <input
                           type="text"
                           className="form-control"
-                          placeholder=" enter phone"
+                          placeholder="Phone Number"
                           name="phone"
                           value={phone}
                           onChange={handleChange}
+                          // required
                         />
                       </div>
-                      {/* age */}
-                      {/* <div className="form-outline mb-4">
-                        <input
-                          type="text"
-                          className="form-control"
-                          placeholder=" enter age"
-                          name="phone"
-                          value={phone}
-                          onChange={handleChange}
-                        />
-                      </div> */}
 
-                      <div className="form-outline mb-4">
+                      <div className="mb-3">
+                        <input
+                          type="text"
+                          className="form-control"
+                          placeholder="Age"
+                          name="age"
+                          value={age}
+                          onChange={handleChange}
+                         // required
+                        />
+                      </div>
+                      <div className="mb-3">
+                        <input
+                          type="text"
+                          className="form-control"
+                          placeholder="Address"
+                          name="address"
+                          value={address}
+                          onChange={handleChange}
+                          // required
+                        />
+                      </div>
+                      <div className="mb-3">
+                        <div className="form-check form-check-inline">
+                          <input
+                            className="form-check-input"
+                            type="radio"
+                            name="gender"
+                            value="male"
+                            id="male"
+                            checked={gender === "male"}
+                            onChange={handleChange}
+                          />
+                          <label
+                            className="form-check-label"
+                            htmlFor="male"
+                          >
+                            Male
+                          </label>
+                        </div>
+                        <div className="form-check form-check-inline">
+                          <input
+                            className="form-check-input"
+                            type="radio"
+                            id="female"
+                            name="gender"
+                            value="female"
+                            checked={gender === "female"}
+                            onChange={handleChange}
+                          />
+                          <label
+                            className="form-check-label"
+                            htmlFor="female"
+                          >
+                            Female
+                          </label>
+                        </div>
+                      </div>
+
+                      <div className="mb-3">
                         <input
                           type="password"
                           className="form-control"
-                          placeholder="password"
+                          placeholder="Password"
                           name="password"
                           value={password}
                           onChange={handleChange}
+                          // required
                         />
                       </div>
 
-                      <div className="text-center pt-1 mb-5 pb-1">
+                      <div className="text-center mt-4">
                         <button
-                          className="btn btn-success btn-rounded button w-100 mb-4  "
+                          className="btn btn-success btn-rounded w-100"
                           type="submit"
                         >
                           Register
                         </button>
-                        <p className="text-muted" href="#!">
-                          Already have an account{" "}
-                          <Link to={"/login"}>login</Link>
-                        </p>
                       </div>
                     </form>
+
+                    <p className="text-muted mt-3">
+                      Already have an account?{" "}
+                      <Link to="/login">Login here</Link>
+                    </p>
                   </div>
                 </div>
                 <div className="col-lg-6 d-flex align-items-center gradient-custom-2">
                   <div className="text-white px-3 py-4 p-md-5 mx-md-4">
-                    <h4 className="mb-4">
-                      Discover Your Inner Island of Support
-                    </h4>
+                    <h4 className="mb-4">Discover Your Inner Island of Support</h4>
                     <p className="small mb-0">
                       Welcome to InnerIsland, your oasis of empathy and support
                       on your transformative journey towards mental well-being -
@@ -140,53 +199,10 @@ Register.propTypes = {
   password: PropTypes.string.isRequired,
   handleChange: PropTypes.func.isRequired,
   registerUser: PropTypes.func.isRequired,
+  age: PropTypes.string.isRequired,
+  address: PropTypes.string.isRequired,
+  gender: PropTypes.oneOf(["male", "female"]).isRequired,
+
 };
 
 export default Register;
-
-const Logo = (
-  <svg
-    width="229"
-    height="45.85396462116636"
-    viewBox="0 0 370.1851851851852 74.08360324514874"
-    className="css-1j8o68f"
-  >
-    <defs id="SvgjsDefs2470"></defs>
-    <g
-      id="SvgjsG2471"
-      featurekey="tOsHRK-0"
-      transform="matrix(0.578703506598464,0,0,0.578703506598464,-4.629616187052284,0.009141097189796282)"
-      fill="#14985c"
-    >
-      <title xmlns="http://www.w3.org/2000/svg">human features final</title>
-      <path
-        xmlns="http://www.w3.org/2000/svg"
-        d="M113,113.77875a11.90412,11.90412,0,0,0-11.999-11.77887c-.28418,0-.71191-.00049-36.998,7.95264l-35.04687-7.7876c-.0459-.01074-.09277-.019-.14062-.02637a12.17084,12.17084,0,0,0-9.74023,2.80615A11.67285,11.67285,0,0,0,15,113.77875a13.9822,13.9822,0,0,0,4.28027,10.07764A14.61063,14.61063,0,0,0,29.54395,128H98.45605A14.40152,14.40152,0,0,0,113,113.77875Zm-90.92676,7.21338A10.00844,10.00844,0,0,1,19,113.77875a7.675,7.675,0,0,1,2.68848-5.80524,8.13729,8.13729,0,0,1,5.32129-1.96826,8.33257,8.33257,0,0,1,1.15234.08057l35.4043,7.86725a2.02167,2.02167,0,0,0,.8623.00146c13.84277-3.03473,34.70215-7.5816,36.71875-7.95319A7.89524,7.89524,0,0,1,109,113.77875a10.39856,10.39856,0,0,1-10.54395,10.22119H29.54395A10.63031,10.63031,0,0,1,22.07324,120.99213Z"
-      ></path>
-      <path
-        xmlns="http://www.w3.org/2000/svg"
-        d="M83.00995,78.47742l14.826,4.35632a4.10889,4.10889,0,0,0,1.15723.168,4.01631,4.01631,0,0,0,3.8916-4.9527L95.67871,48.55133a6.217,6.217,0,0,0-4.47461-4.78522L82.06055,41.438a12.58663,12.58663,0,0,1-5.7467-3.50275c-.1004.107-.196.21808-.29822.32355a22.88228,22.88228,0,0,1-2.65,2.34583A16.59974,16.59974,0,0,0,81.07422,45.314l9.14355,2.32861a2.32527,2.32527,0,0,1,1.582,1.88623l7.16309,29.467L66,69.31036V56.62512l5.59082,8.4165a1.99618,1.99618,0,0,0,1.01172.78369L85.3457,70.23358a2.00021,2.00021,0,0,0,1.30859-3.78033l-12.10547-4.1875L65.666,48.89313c-.01-.01508-.02545-.02393-.03583-.03864a1.98182,1.98182,0,0,0-.2312-.24933,1.08683,1.08683,0,0,0-.46759-.34741,1.97181,1.97181,0,0,0-.30548-.14935c-.01721-.00574-.03033-.01813-.04779-.02338a1.92059,1.92059,0,0,0-.24457-.03223,1.28248,1.28248,0,0,0-.66547-.00018,1.93539,1.93539,0,0,0-.24622.03241c-.01758.00531-.03082.01776-.04822.02356a1.98,1.98,0,0,0-.299.14618,1.088,1.088,0,0,0-.46954.34637,1.98084,1.98084,0,0,0-.23535.25348c-.01031.01465-.02576.0235-.03577.03851L53.45117,62.26575,41.3457,66.45325a2.00021,2.00021,0,0,0,1.30859,3.78033l12.74316-4.40826a1.99618,1.99618,0,0,0,1.01172-.78369L62,56.62512V69.31L29.002,78.99829l7.19043-29.4411a2.348,2.348,0,0,1,1.58984-1.915L46.92578,45.314a16.60409,16.60409,0,0,0,7.71826-4.72,22.95562,22.95562,0,0,1-1.96533-1.66339c-.34009-.32471-.65369-.67224-.97614-1.01227A12.59566,12.59566,0,0,1,45.93945,41.438L36.7959,43.76563a6.23541,6.23541,0,0,0-4.48242,4.814L25.11523,78.0495a3.95165,3.95165,0,0,0,1.124,3.83307,3.99508,3.99508,0,0,0,3.9248.95117l14.826-4.35638,2.01965,6.71527a9.01337,9.01337,0,0,1-1.50391,8.10406l-5.68927,7.18365,4.33807.964,4.4967-5.67792a13.02285,13.02285,0,0,0,2.18848-11.72565l-2.01227-6.69092L64,72.89178l15.17249,4.45807-2.01233,6.69141a13.02977,13.02977,0,0,0,2.19922,11.73883l4.5376,5.72949c1.5946-.34686,3.05212-.66321,4.35327-.94482l-5.74536-7.25439a9.0202,9.0202,0,0,1-1.51465-8.11725Z"
-      ></path>
-      <path
-        xmlns="http://www.w3.org/2000/svg"
-        d="M63.3877,39.9834c.17773.01025.35547.01563.53418.01563,3.126,0,6.37988-1.59131,9.2207-4.52344A24.505,24.505,0,0,0,80,18.47839c-.002-.605-.02832-1.22168-.0791-1.83447a19.60525,19.60525,0,0,0-4.124-10.816A15.653,15.653,0,0,0,65.07813.04572,14.13437,14.13437,0,0,0,53.30371,4.60919c-3.96387,4.25635-6.00684,11.3316-5.084,17.60559a24.0765,24.0765,0,0,0,7.2207,13.82135C58.01953,38.49707,60.69336,39.82471,63.3877,39.9834ZM56.23047,7.33478a10.03526,10.03526,0,0,1,7.61035-3.33594q.46289,0,.93848.03613A11.5852,11.5852,0,0,1,72.68945,8.3465,15.63921,15.63921,0,0,1,75.93457,16.973q.06152.75879.06543,1.51953V18.493a20.47226,20.47226,0,0,1-5.73047,14.19934c-1.26172,1.30322-3.80859,3.46826-6.64746,3.29785-1.72168-.10107-3.5459-1.05957-5.41992-2.84766a20.06959,20.06959,0,0,1-6.02539-11.50983C51.4209,16.496,53.05078,10.75037,56.23047,7.33478Z"
-      ></path>
-      <path
-        xmlns="http://www.w3.org/2000/svg"
-        d="M82.99738,11.32245a25.97287,25.97287,0,0,1,.86737,4.629A51.93769,51.93769,0,0,1,103.15558,98.16a16.033,16.033,0,0,1,4.2533,1.17023,55.95243,55.95243,0,0,0-24.4115-88.00781Z"
-      ></path>
-      <path
-        xmlns="http://www.w3.org/2000/svg"
-        d="M8,63.99963A55.73189,55.73189,0,0,0,20.59344,99.33325a16.036,16.036,0,0,1,4.25433-1.16931A51.93677,51.93677,0,0,1,44.19513,15.9278a27.79847,27.79847,0,0,1,.981-4.66418A56.09029,56.09029,0,0,0,8,63.99963Z"
-      ></path>
-    </g>
-    <g
-      id="SvgjsG2472"
-      featurekey="dVtZHI-0"
-      transform="matrix(3.0448958117374456,0,0,3.0448958117374456,85,0.08964245515457492)"
-      fill="#14985c"
-    >
-      <path d="M0 4.24 l0 15.76 l0.52 0 l0 -15.76 l-0.52 0 z M10.100000000000001 4.58 l-0.000019531 11.56 c0 0.36 0.0066602 0.76 0.02 1.2 s0.02 0.66666 0.02 0.68 c-0.02666 -0.04 -0.12332 -0.25666 -0.28998 -0.65 s-0.33 -0.74334 -0.49 -1.05 l-0.28 -0.54 l-0.72 0 l2.2 4.22 l0.18 0 l0 -15.42 l-0.64 0 z M4.48 7.9399999999999995 l0.27998 0.54 l0.72 0 l-2.22 -4.24 l-0.14 0 l0 15.46 l0.62 0 l0 -11.6 c0 -0.33334 -0.0066602 -0.72334 -0.02 -1.17 s-0.02 -0.67666 -0.02 -0.69 c0.01334 0.04 0.10668 0.26 0.28002 0.66 s0.34 0.74666 0.5 1.04 z M20.32 4.58 l-0.000019531 11.56 c0 0.36 0.0066602 0.76 0.02 1.2 s0.02 0.66666 0.02 0.68 c-0.02666 -0.04 -0.12332 -0.25666 -0.28998 -0.65 s-0.33 -0.74334 -0.49 -1.05 l-0.28 -0.54 l-0.72 0 l2.2 4.22 l0.18 0 l0 -15.42 l-0.64 0 z M14.7 7.9399999999999995 l0.27998 0.54 l0.72 0 l-2.22 -4.24 l-0.14 0 l0 15.46 l0.62 0 l0 -11.6 c0 -0.33334 -0.0066602 -0.72334 -0.02 -1.17 s-0.02 -0.67666 -0.02 -0.69 c0.01334 0.04 0.10668 0.26 0.28002 0.66 s0.34 0.74666 0.5 1.04 z M24.12 14.16 l0 -9.36 l4.8 0 l0 -0.56 l-5.36 0 l0 9.92 l0.56 0 z M29.12 20 l0 -0.54 l-5 0 l0 -4.14 l0.8 0 l0 -0.54 l-1.36 0 l0 5.22 l5.56 0 z M36.120000000000005 15.219999999999999 c0.85334 -0.48 1.5067 -1.1567 1.96 -2.03 s0.68 -1.8633 0.68 -2.97 l0 -0.28 c0 -1.64 -0.49 -3 -1.47 -4.08 s-2.3766 -1.62 -4.19 -1.62 l-1.38 0 l0 6.34 c0.22666 0.01334 0.45332 0.02 0.67998 0.02 l0 -5.72 l0.66 0 c1.64 0 2.88 0.47666 3.72 1.43 s1.26 2.1766 1.26 3.67 l0 0.22 c0 1.48 -0.42 2.6934 -1.26 3.64 s-2.08 1.42 -3.72 1.42 l-0.66 0 l0 0 l-0.68 0 l0 0.64 c0.4 0.01334 0.66666 0.02 0.8 0.02 l0.58 0 c0.92 0 1.7267 -0.14 2.42 -0.42 l2.48 4.5 l0.8 0 z M41.400000000000006 4.24 l0 15.76 l0.52 0 l0 -15.76 l-0.52 0 z M46.2 11.02 l1.78 1.66 c0.56 0.52 1 1.0767 1.32 1.67 s0.48 1.19 0.48 1.79 l0 0.26 c0.01334 0.42666 -0.04 0.80666 -0.16 1.14 l0.74 0 c0.10666 -0.36 0.15332 -0.73334 0.13998 -1.12 l0 -0.28 c0 -0.72 -0.18334 -1.4067 -0.55 -2.06 s-0.87666 -1.2933 -1.53 -1.92 l-1.72 -1.62 c-0.54666 -0.52 -0.99666 -1.0067 -1.35 -1.46 s-0.53 -1.02 -0.53 -1.7 l0 -0.12 c0 -0.70666 0.19666 -1.2767 0.59 -1.71 s0.94334 -0.65 1.65 -0.65 c0.50666 0 0.92 0.07666 1.24 0.23 s0.64666 0.38334 0.98 0.69 l0.46 -0.52 c-0.37334 -0.34666 -0.75668 -0.60666 -1.15 -0.78 s-0.90334 -0.26 -1.53 -0.26 c-0.81334 0 -1.5033 0.26334 -2.07 0.79 s-0.85 1.2567 -0.85 2.19 l0 0.16 c0 0.76 0.19 1.41 0.57 1.95 s0.87666 1.0967 1.49 1.67 z M50.080000000000005 18.3 l-0.82002 0 c-0.46666 0.68 -1.2133 1.0267 -2.24 1.04 c-0.34666 0 -0.66 -0.04 -0.94 -0.12 l0 0.7 c0.28 0.05334 0.59334 0.08 0.94 0.08 c0.72 0 1.34 -0.14666 1.86 -0.44 s0.92 -0.71334 1.2 -1.26 z M53.760000000000005 16.06 l0 -11.82 l-0.66 0 l0 11.82 l0.66 0 z M59.14000000000001 20 l0 -0.68 l-5.38 0 l0 -1.96 l-0.66 0 l0 2.64 l6.04 0 z M67.08000000000001 6.140000000000001 c0 0.08 0.23666 0.84334 0.71 2.29 s0.99 3.03 1.55 4.75 s1.3133 3.9934 2.26 6.82 l0.86 0 l-5.3 -15.76 l-0.16 0 l-5.26 15.76 l0.82 0 z M66.72000000000001 15.52 l-0.72 0 l1.2 4.48 l0.72 0 z M82.04 4.58 l-0.000019531 11.56 c0 0.36 0.0066602 0.76 0.02 1.2 s0.02 0.66666 0.02 0.68 c-0.02666 -0.04 -0.12332 -0.25666 -0.28998 -0.65 s-0.33 -0.74334 -0.49 -1.05 l-0.28 -0.54 l-0.72 0 l2.2 4.22 l0.18 0 l0 -15.42 l-0.64 0 z M76.42 7.9399999999999995 l0.27998 0.54 l0.72 0 l-2.22 -4.24 l-0.14 0 l0 15.46 l0.62 0 l0 -11.6 c0 -0.33334 -0.0066602 -0.72334 -0.02 -1.17 s-0.02 -0.67666 -0.02 -0.69 c0.01334 0.04 0.10668 0.26 0.28002 0.66 s0.34 0.74666 0.5 1.04 z M87.08 20 c0.58666 0 1.1334 -0.06664 1.6401 -0.19998 l-0.16 -0.6 c-0.45334 0.12 -0.94668 0.18 -1.48 0.18 l-1.18 0 l0 -14.46 l1.18 0 c0.86666 0 1.6633 0.17 2.39 0.51 s1.3533 0.81 1.88 1.41 s0.94 1.3233 1.24 2.17 s0.45 1.7767 0.45 2.79 l0 0.42 c0 0.74666 -0.1 1.48 -0.3 2.2 s-0.47334 1.3833 -0.82 1.99 s-0.75332 1.1367 -1.22 1.59 s-0.96 0.78 -1.48 0.98 l0.24 0.58 c0.58666 -0.24 1.1333 -0.60334 1.64 -1.09 s0.95 -1.0567 1.33 -1.71 s0.68 -1.37 0.9 -2.15 s0.33 -1.5767 0.33 -2.39 l0 -0.42 c0 -1.0933 -0.16666 -2.0966 -0.5 -3.01 s-0.79334 -1.7033 -1.38 -2.37 s-1.28 -1.1867 -2.08 -1.56 s-1.6733 -0.56 -2.62 -0.56 l-1.8 0 l0 15.7 l1.8 0 z"></path>
-    </g>
-  </svg>
-);
