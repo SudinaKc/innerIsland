@@ -15,7 +15,6 @@ Demo Credentials:
 - Email: gupta.anand60588@gmail.com
 - Password: 12345
 
-<br>
 ![image](https://github.com/anandkishorgupta/innerIsland/assets/85511831/20f68df4-51c4-4df5-b987-4db3c51da7b6)
 <br>
 ![image](https://github.com/anandkishorgupta/innerIsland/assets/85511831/8c4e1302-6a80-4ba8-913b-50e0972e0905)
