@@ -26,7 +26,6 @@ Demo Credentials:
 ![image](https://github.com/anandkishorgupta/innerIsland/assets/85511831/846b8d4d-b7e6-4421-89cc-5d3bb20233ac)
 <br>
 ![image](https://github.com/anandkishorgupta/innerIsland/assets/85511831/5585facd-2fed-40b8-8b13-225365a421f1)
-
 <br>
 ![image](https://github.com/anandkishorgupta/innerIsland/assets/85511831/9502b5f7-e752-45c4-b7ee-0bf0f4fabbbd)
 <br>
