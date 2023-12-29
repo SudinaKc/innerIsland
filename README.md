@@ -11,9 +11,7 @@ InnerIsland is an online counseling platform designed to provide support and gui
 
 Explore the [InnerIsland Demo](https://innerisland-frontend.onrender.com/)
 
-Demo Credentials:
-- Email: gupta.anand60588@gmail.com
-- Password: 12345
+
 
 ![image](https://github.com/anandkishorgupta/innerIsland/assets/85511831/20f68df4-51c4-4df5-b987-4db3c51da7b6)
 <br>
